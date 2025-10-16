@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Krishna Sharma Website</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Global */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      overflow-x: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 15px 25px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+    }
+
+    header h1 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .menu-icon {
+      font-size: 26px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .menu-icon:hover {
+      transform: scale(1.1);
+      color: #00d4ff;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 60px;
+      left: -100%;
+      width: 60%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: 0.4s ease;
+      backdrop-filter: blur(8px);
+      z-index: 999;
+    }
+
+    nav.active {
+      left: 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 15px;
+      font-size: 1.1em;
+      font-weight: 500;
+      transition: 0.3s;
+      width: 100%;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Sections */
+    section {
+      display: none;
+      min-height: 100vh;
+      padding: 120px 20px 50px;
+      text-align: center;
+      transition: 0.5s ease;
+    }
+
+    section.active {
+      display: block;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* Welcome Section */
+    #welcome {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .welcome-text {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 15px #00c3ff;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00c3ff; }
+      to { text-shadow: 0 0 25px #00ffff; }
+    }
+
+    button {
+      background: linear-gradient(45deg, #00c3ff, #0078ff);
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+      box-shadow: 0 0 10px #00c3ff;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #00e5ff;
+    }
+
+    /* Profile Card */
+    .card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      backdrop-filter: blur(6px);
+      padding: 25px;
+      max-width: 400px;
+      margin: 0 auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    .card p {
+      margin: 10px 0;
+      font-size: 1.1em;
+    }
+
+    /* Game Links */
+    .game-links a {
+      display: block;
+      color: #00e5ff;
+      text-decoration: none;
+      font-size: 1.1em;
+      margin: 15px 0;
+      transition: 0.3s;
+    }
+
+    .game-links a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #00e5ff;
+    }
+
+    footer {
+      background: rgba(0,0,0,0.5);
+      padding: 10px;
+      text-align: center;
+      color: #aaa;
+      font-size: 0.9em;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    /* Login Button */
+    .login-btn {
+      margin-top: 15px;
+      background: #fff;
+      color: #333;
+      border-radius: 30px;
+      padding: 10px 20px;
+      font-weight: 600;
+    }
+
+    .login-btn:hover {
+      background: #00e5ff;
+      color: white;
+    }
+
+    @media (max-width: 600px) {
+      .welcome-text { font-size: 1.5em; }
+      button { font-size: 0.9em; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Krishna Sharma</h1>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+  </header>
+
+  <nav id="navMenu">
+    <a href="#" onclick="showSection('welcome')">Home</a>
+    <a href="#" onclick="showSection('profile')">Profile</a>
+    <a href="#" onclick="showSection('games')">Krishna’s Game</a>
+    <a href="#" onclick="showSection('thanks')">Thanks to GPT</a>
+    <a href="#" onclick="googleLogin()">Login with Google</a>
+  </nav>
+
+  <section id="welcome" class="active">
+    <h2 class="welcome-text">Welcome, Delightful Krishna Sharma ✨</h2>
+    <button onclick="showSection('profile')">Start</button>
+  </section>
+
+  <section id="profile">
+    <h2>👤 Profile</h2>
+    <div class="card">
+      <p><strong>Name:</strong> Krishna Sharma</p>
+      <p><strong>Class:</strong> (Add your class here)</p>
+      <p><strong>Enrollment No:</strong> 15</p>
+      <p><strong>Institute:</strong> PhysicsWallah</p>
+      <p><strong>Registration ID:</strong> 225</p>
+    </div>
+  </section>
+
+  <section id="games">
+    <h2>🎮 Krishna’s Games</h2>
+    <div class="card game-links">
+      <a href="https://dusky-nine.vercel.app" target="_blank">Game 1 — dusky-nine.vercel.app</a>
+      <a href="https://ess-eight-xi.vercel.app" target="_blank">Game 2 — ess-eight-xi.vercel.app</a>
+    </div>
+  </section>
+
+  <section id="thanks">
+    <h2>💖 Thanks to GPT</h2>
+    <div class="card">
+      <p>Special thanks to ChatGPT for helping me design and create my dream website 🚀</p>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Krishna Sharma | All Rights Reserved
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById("navMenu");
+      nav.classList.toggle("active");
+    }
+
+    function showSection(id) {
+      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      document.getElementById("navMenu").classList.remove("active");
+      window.scrollTo(0, 0);
+    }
+
+    function googleLogin() {
+      alert("Google Login with Firebase will be added soon! 🔒");
+    }
+  </script>
+</body>
+</html>
