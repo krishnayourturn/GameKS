@@ -4,230 +4,350 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Krishna Sharma Website</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
+    :root{
+      --bg1:#071021; --bg2:#0b2740; --accent:#00e5ff; --accent2:#6f9cff;
+      --glass: rgba(255,255,255,0.04);
+    }
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
     body{
       font-family:'Poppins',sans-serif;
-      background: linear-gradient(135deg,#0f2027,#2c5364);
-      color:#fff;
+      background: linear-gradient(140deg,var(--bg1),var(--bg2));
+      color:#e6f7ff;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
     }
 
-    /* Header */
+    /* header */
     header{
-      position:fixed;top:0;left:0;right:0;
-      height:64px;
-      display:flex;align-items:center;justify-content:space-between;
-      padding:0 20px;
-      background:rgba(0,0,0,0.35);
-      backdrop-filter:blur(6px);
-      z-index:999;
+      position:fixed;top:14px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;z-index:1000;
+      pointer-events:none;
     }
-    header h1{font-size:1.15rem;letter-spacing:0.6px}
-    .menu-icon{font-size:26px;cursor:pointer;transition:transform .18s}
-    .menu-icon:hover{transform:scale(1.06);color:#00e5ff}
-
-    /* nav (minimal: only Home + Login) */
-    nav{
-      position:fixed;left:-100%;top:64px;height:100vh;width:68%;
-      background:rgba(0,0,0,0.85);transition:left .35s;z-index:998;
-      display:flex;flex-direction:column;align-items:center;padding-top:30px;
-      gap:8px;
+    .brand{
+      pointer-events:auto;
+      padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+      box-shadow:0 6px 20px rgba(0,0,0,0.6);
+      border:1px solid rgba(255,255,255,0.03);
+      display:flex;gap:10px;align-items:center;
     }
-    nav.active{left:0}
-    nav a{width:100%;text-align:center;padding:14px 12px;color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.05)}
-    nav a:hover{background:rgba(255,255,255,0.03)}
+    .brand h1{font-size:1rem;font-weight:700;margin:0;color:#dffaff}
+    .menu-btn{pointer-events:auto;background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:10px;color:var(--accent);cursor:pointer;}
+    .menu-btn:hover{background:rgba(255,255,255,0.02)}
 
-    /* Sections */
-    main{padding-top:80px}
-    section{min-height:calc(100vh - 120px);padding:40px 20px;display:none;align-items:center;justify-content:center;text-align:center}
-    section.active{display:flex;flex-direction:column}
-
-    /* Welcome */
-    #welcome{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center}
-    .welcome-title{
-      font-size:2rem;font-weight:700;text-align:center;
-      text-shadow:0 0 16px rgba(0,195,255,0.25);
-      animation:glow 2s ease-in-out infinite alternate;
+    /* side nav (hamburger) */
+    #sideNav{
+      position:fixed;top:64px;right:-320px;width:300px;height:calc(100vh - 80px);background:linear-gradient(180deg, rgba(5,18,30,0.96), rgba(3,12,22,0.94));backdrop-filter:blur(8px);
+      border-left:1px solid rgba(255,255,255,0.03);transition:right .36s;z-index:995;padding:18px;
     }
-    @keyframes glow{from{text-shadow:0 0 10px rgba(0,195,255,0.25)}to{text-shadow:0 0 28px rgba(0,255,255,0.35)}}
+    #sideNav.open{right:16px}
+    #sideNav a{display:block;color:#dff6ff;text-decoration:none;padding:10px 12px;border-radius:8px;margin-bottom:8px}
+    #sideNav a:hover{background:rgba(0,229,255,0.04);color:var(--accent)}
 
-    .start-btn{
-      margin-top:6px;background:linear-gradient(90deg,#00c3ff,#0078ff);
-      border:none;padding:12px 28px;border-radius:40px;color:#fff;font-weight:700;cursor:pointer;
-      box-shadow:0 6px 22px rgba(0,195,255,0.12);transition:transform .18s,box-shadow .18s;
+    main{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px 18px}
+
+    /* Intro / Welcome screen */
+    #intro{
+      width:100%;max-width:960px;padding:40px;border-radius:16px;text-align:center;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow:0 20px 50px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.03);
     }
-    .start-btn:hover{transform:scale(1.04);box-shadow:0 10px 32px rgba(0,195,255,0.18)}
-
-    /* After Start: two-option panel */
-    .choice-panel{margin-top:18px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
-    .choice{
-      background:rgba(255,255,255,0.06);padding:18px 22px;border-radius:12px;min-width:160px;
-      cursor:pointer;border:1px solid rgba(255,255,255,0.04);transition:transform .15s,background .15s;
+    .line{
+      font-weight:700;font-size:3rem;letter-spacing:1px;margin:6px 0;opacity:0;transform:translateY(18px);
+      color:transparent;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;
+      text-shadow:0 0 20px rgba(0,229,255,0.08);
     }
-    .choice:hover{transform:translateY(-6px);background:rgba(255,255,255,0.09)}
+    .sub{
+      margin-top:8px;color:#cfefff;font-weight:500;opacity:0;transform:translateY(12px)
+    }
+    .intro-cta{margin-top:26px;opacity:0;transform:translateY(12px)}
+    .btn{
+      padding:12px 22px;border-radius:40px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent2));
+      color:#001726;font-weight:700;cursor:pointer;box-shadow:0 12px 36px rgba(0,229,255,0.08);
+    }
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#dff6ff}
 
-    /* Card style for profile/games/thanks */
+    /* animations for intro */
+    .reveal{animation:slideIn .7s forwards}
+    .reveal-del-1{animation:slideIn .7s .18s forwards}
+    .reveal-del-2{animation:slideIn .7s .34s forwards}
+    .reveal-del-3{animation:slideIn .7s .5s forwards}
+    @keyframes slideIn{to{opacity:1;transform:none}}
+
+    /* Dashboard */
+    #dashboard{display:none;min-height:100vh;padding:40px 24px 80px}
+    #dashboard.active{display:block}
+    .dash-wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+    .dash-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .hello{font-size:1.05rem;color:#dff8ff}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px}
     .card{
-      background:rgba(255,255,255,0.06);padding:22px;border-radius:14px;max-width:520px;width:100%;
-      backdrop-filter:blur(6px);box-shadow:0 6px 30px rgba(0,0,0,0.35);
-      text-align:left;color:#e6f7ff;
+      background:var(--glass);padding:18px;border-radius:14px;border:1px solid rgba(255,255,255,0.03);
+      box-shadow:0 12px 30px rgba(0,0,0,0.5);min-height:140px;display:flex;flex-direction:column;justify-content:space-between;
+      transition:transform .18s,box-shadow .18s;
     }
-    .card h2{margin-bottom:12px}
-    .card p{margin:8px 0;font-size:0.98rem;line-height:1.45}
+    .card:hover{transform:translateY(-8px);box-shadow:0 20px 44px rgba(0,0,0,0.6)}
+    .card h3{color:#eaffff;margin-bottom:8px}
+    .card p{color:#cfefff;font-size:0.95rem}
+    .card .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 
-    .label{color:#bfeeff;font-weight:700;margin-right:8px}
-    .muted{color:#cfeffa88;font-weight:500}
+    .small-btn{padding:8px 10px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(90deg,#00c3ff,#0078ff);color:#001726;font-weight:700}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#dff6ff}
 
-    /* Game links */
-    .game-links{display:flex;flex-direction:column;gap:10px}
-    .game-links a{
-      color:#00e5ff;text-decoration:none;padding:10px 12px;border-radius:8px;
-      background:rgba(0,0,0,0.12);display:inline-block;transition:box-shadow .15s;
-    }
-    .game-links a:hover{box-shadow:0 8px 24px rgba(0,230,255,0.08);color:#fff}
+    /* note areas */
+    .note-area{width:100%;height:200px;padding:12px;border-radius:10px;border:1px dashed rgba(255,255,255,0.04);background:rgba(0,0,0,0.12);color:#dff6ff;resize:vertical}
+    .note-controls{margin-top:10px;display:flex;gap:8px;align-items:center;justify-content:flex-end}
 
-    /* Footer small text */
-    footer{position:fixed;left:0;right:0;bottom:0;padding:10px 16px;text-align:center;background:rgba(0,0,0,0.35);font-size:0.9rem;color:#cfefff88}
+    footer{position:fixed;left:0;right:0;bottom:10px;text-align:center;color:#aee9ff88;font-size:0.9rem}
 
-    /* Login button style */
-    .login-btn {
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      background:#fff;color:#222;padding:8px 12px;border-radius:24px;border:none;
-      cursor:pointer;font-weight:700;
-    }
-    .login-btn:active{transform:translateY(1px)}
-    .user-info { margin-top:12px; color:#e6fbff; }
-
-    /* Responsive */
-    @media (max-width:720px){
-      .welcome-title{font-size:1.5rem}
-      .choice{min-width:140px}
-      nav{width:84%}
+    /* responsive */
+    @media (max-width:780px){
+      .line{font-size:2.2rem}
+      .card{min-height:120px}
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Krishna Sharma</h1>
-    <div class="menu-icon" onclick="toggleMenu()" aria-hidden="true">☰</div>
+    <div class="brand" title="Krishna Sharma">
+      <h1>Krishna Sharma</h1>
+    </div>
+
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="menu-btn" id="hamburgerBtn" onclick="toggleNav()" title="Menu">☰</button>
+    </div>
   </header>
 
-  <!-- Minimal nav: only Home + Login (no Profile or Games) -->
-  <nav id="navMenu" aria-hidden="true">
-    <a href="#" onclick="showHome()">Home</a>
-    <a href="#" onclick="triggerGoogleLogin()">Login with Google</a>
-  </nav>
+  <!-- Side nav -->
+  <aside id="sideNav" aria-hidden="true">
+    <a href="#" onclick="goHome();toggleNav();return false;">🏠 Home</a>
+    <a href="#" onclick="triggerGoogleLogin();return false;">🔐 Login with Google</a>
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0">
+    <div style="font-size:0.95rem;color:#cfefff">(Google login is optional — we can enable Firebase when you're ready.)</div>
+  </aside>
 
   <main>
-    <!-- Welcome -->
-    <section id="welcome" class="active" aria-labelledby="welcome-title">
+    <!-- Intro / welcome -->
+    <section id="intro" aria-labelledby="welcome">
       <div>
-        <div class="welcome-title" id="welcome-title">Welcome, Delightful Krishna Sharma ✨</div>
-        <div style="max-width:720px;margin:10px auto;color:#dff6ffcc">
-          This is your personal site. Click <strong>Start</strong> to continue.
-        </div>
+        <div class="line" id="line1">Krishna</div>
+        <div class="line" id="line2">Sharma</div>
+        <div class="sub" id="line3">With love from ChatGPT ❤️</div>
 
-        <button class="start-btn" onclick="startWithPassword()">Start</button>
-
-        <!-- choices appear only after correct password -->
-        <div id="choices" class="choice-panel" style="display:none">
-          <div class="choice" onclick="showSection('profile')">👤 Profile</div>
-          <div class="choice" onclick="showSection('games')">🎮 Krishna's Game</div>
+        <div class="intro-cta">
+          <button class="btn" id="loginBtn" onclick="startLogin()">Login</button>
+          <button class="btn secondary" onclick="goHome()">Preview</button>
         </div>
       </div>
     </section>
 
-    <!-- Profile -->
-    <section id="profile" aria-labelledby="profile-title">
-      <div class="card">
-        <h2 id="profile-title">👤 Profile</h2>
+    <!-- Dashboard -->
+    <section id="dashboard" aria-hidden="true">
+      <div class="dash-wrap">
+        <div class="dash-top">
+          <div class="hello">Welcome back, <strong id="ownerName">Krishna</strong> — choose an option below</div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <button class="small-btn ghost" onclick="goHome()">Home</button>
+            <button class="small-btn" onclick="triggerGoogleLogin()">Google Login</button>
+          </div>
+        </div>
 
-        <!-- static profile details -->
-        <p><span class="label">Name:</span> <span class="muted">Krishna Sharma</span></p>
-        <p><span class="label">Class:</span> <span class="muted">(Add your class here)</span></p>
-        <p><span class="label">Enrollment No:</span> <span class="muted">15</span></p>
-        <p><span class="label">Institute:</span> <span class="muted">PhysicsWallah</span></p>
-        <p><span class="label">Registration ID:</span> <span class="muted">22581624</span></p>
-        <p><span class="label">Gender:</span> <span class="muted">Male</span></p>
-        <p><span class="label">Nationality:</span> <span class="muted">India</span></p>
-        <p><span class="label">Address:</span> <span class="muted">tumhe nahi batana</span></p>
+        <div class="cards">
+          <!-- Profile -->
+          <div class="card" id="card-profile">
+            <div>
+              <h3>👤 Profile</h3>
+              <p><strong>Name:</strong> Krishna Sharma<br>
+                 <strong>Class:</strong> (Add your class here)<br>
+                 <strong>Enrollment No:</strong> 15<br>
+                 <strong>Institute:</strong> PhysicsWallah<br>
+                 <strong>Registration ID:</strong> 22581624<br>
+                 <strong>Gender:</strong> Male<br>
+                 <strong>Nationality:</strong> India<br>
+                 <strong>Address:</strong> tumhe nahi batana</p>
 
-        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:14px 0">
-
-        <!-- Firebase login area: shows login button if not signed-in, otherwise user info + logout -->
-        <div id="authArea" style="text-align:center">
-          <div id="signedOutView">
-            <button class="login-btn" onclick="triggerGoogleLogin()">Login with Google</button>
-            <div style="margin-top:8px;color:#cfefff88">Sign in to show your Google account details here.</div>
+              <div id="googleUserInfo" style="margin-top:8px;display:none">
+                <div style="font-weight:700" id="gname"></div>
+                <div id="gemail" style="font-size:0.95rem;color:#dff6ff"></div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="small-btn ghost" onclick="openSection('profileFull')">Open</button>
+            </div>
           </div>
 
-          <div id="signedInView" style="display:none">
-            <div class="user-info">
-              <div id="userName" style="font-weight:700"></div>
-              <div id="userEmail" style="font-size:0.95rem;color:#dff6ff"></div>
+          <!-- Games -->
+          <div class="card" id="card-games">
+            <div>
+              <h3>🎮 Krishna's Games</h3>
+              <p>Open your games in a new tab:</p>
+              <p style="margin-top:8px"><a href="https://chess-eight-xi.vercel.app" target="_blank" style="color:var(--accent);text-decoration:underline">chess-eight-xi.vercel.app</a><br>
+                 <a href="https://ks-dusky-nine.vercel.app" target="_blank" style="color:var(--accent);text-decoration:underline">ks-dusky-nine.vercel.app</a></p>
             </div>
-            <div style="margin-top:12px">
-              <button onclick="signOut()" class="login-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.08);color:#dff6ff">Logout</button>
+            <div class="actions">
+              <button class="small-btn" onclick="openSection('gamesFull')">Open</button>
+            </div>
+          </div>
+
+          <!-- Notepad -->
+          <div class="card" id="card-notepad">
+            <div>
+              <h3>📝 Notepad</h3>
+              <p>Quick notes — saved locally in your browser.</p>
+            </div>
+            <div class="actions">
+              <button class="small-btn" onclick="openSection('notepadFull')">Open</button>
+            </div>
+          </div>
+
+          <!-- Important Numbers -->
+          <div class="card" id="card-numbers">
+            <div>
+              <h3>☎️ Important Numbers</h3>
+              <p>Store phone numbers, emergency contacts, etc.</p>
+            </div>
+            <div class="actions">
+              <button class="small-btn" onclick="openSection('numbersFull')">Open</button>
+            </div>
+          </div>
+
+          <!-- Personal Details -->
+          <div class="card" id="card-personal">
+            <div>
+              <h3>🔒 Personal Details</h3>
+              <p>Private notes you want to keep safe locally.</p>
+            </div>
+            <div class="actions">
+              <button class="small-btn" onclick="openSection('personalFull')">Open</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Full pages (hidden by default) -->
+    <!-- Profile full -->
+    <section id="profileFull" style="display:none;max-width:980px;margin:0 auto;padding-bottom:60px">
+      <div class="card" style="text-align:left">
+        <h3>👤 Profile</h3>
+        <p><strong>Name:</strong> Krishna Sharma<br>
+           <strong>Class:</strong> (Add your class here)<br>
+           <strong>Enrollment No:</strong> 15<br>
+           <strong>Institute:</strong> PhysicsWallah<br>
+           <strong>Registration ID:</strong> 22581624<br>
+           <strong>Gender:</strong> Male<br>
+           <strong>Nationality:</strong> India<br>
+           <strong>Address:</strong> tumhe nahi batana</p>
+
+        <div id="profileAuthArea" style="margin-top:8px">
+          <div id="signedOut" style="display:block">
+            <button class="small-btn" onclick="triggerGoogleLogin()">Login with Google</button>
+            <div style="margin-top:8px;color:#cfefff88">Login to show Google account info here.</div>
+          </div>
+          <div id="signedIn" style="display:none">
+            <div id="profileGName" style="font-weight:700"></div>
+            <div id="profileGEmail" style="color:#dff6ff"></div>
+            <div style="margin-top:10px">
+              <button class="small-btn ghost" onclick="signOut()">Logout</button>
             </div>
           </div>
         </div>
 
         <div style="margin-top:14px;text-align:center">
-          <button onclick="showHome()" style="background:transparent;border:1px solid rgba(255,255,255,0.08);padding:8px 14px;border-radius:10px;color:#dff6ff">Back</button>
+          <button class="small-btn ghost" onclick="openSection('dashboard')">Back</button>
         </div>
       </div>
     </section>
 
-    <!-- Games -->
-    <section id="games" aria-labelledby="games-title">
+    <!-- Games full -->
+    <section id="gamesFull" style="display:none;max-width:980px;margin:0 auto;padding-bottom:60px">
       <div class="card">
-        <h2 id="games-title">🎮 Krishna's Games</h2>
-        <div style="color:#dff6ffcc">Click a game to open it in a new tab:</div>
-        <div class="game-links" style="margin-top:12px">
-          <!-- Updated links with https -->
-          <a href="https://dusky-nine.vercel.app" target="_blank" rel="noopener noreferrer">Game 1 — dusky-nine.vercel.app</a>
-          <a href="https://ess-eight-xi.vercel.app" target="_blank" rel="noopener noreferrer">Game 2 — ess-eight-xi.vercel.app</a>
-        </div>
-
-        <div style="margin-top:18px;text-align:center">
-          <button onclick="showHome()" style="background:transparent;border:1px solid rgba(255,255,255,0.08);padding:8px 14px;border-radius:10px;color:#dff6ff">Back</button>
+        <h3>🎮 Games</h3>
+        <p>Open the links below in a new tab:</p>
+        <ul style="margin-top:10px;color:#dff6ff">
+          <li><a href="https://chess-eight-xi.vercel.app" target="_blank" rel="noopener" style="color:var(--accent)">chess-eight-xi.vercel.app</a></li>
+          <li><a href="https://ks-dusky-nine.vercel.app" target="_blank" rel="noopener" style="color:var(--accent)">ks-dusky-nine.vercel.app</a></li>
+        </ul>
+        <div style="margin-top:14px;text-align:center">
+          <button class="small-btn ghost" onclick="openSection('dashboard')">Back</button>
         </div>
       </div>
     </section>
 
-    <!-- Thanks -->
-    <section id="thanks" aria-labelledby="thanks-title">
-      <div class="card" style="text-align:center">
-        <h2 id="thanks-title">💖 Thanks to GPT</h2>
-        <p>Special thanks to ChatGPT for helping me design and build this website 🚀</p>
-        <p style="margin-top:10px;font-weight:700;color:#fff">Have fun!</p>
-        <div style="margin-top:16px">
-          <button onclick="showHome()" style="background:transparent;border:1px solid rgba(255,255,255,0.08);padding:8px 14px;border-radius:10px;color:#dff6ff">Back</button>
+    <!-- Notepad full -->
+    <section id="notepadFull" style="display:none;max-width:980px;margin:0 auto;padding-bottom:60px">
+      <div class="card">
+        <h3>📝 Notepad</h3>
+        <textarea id="notepadText" class="note-area" placeholder="Write your notes here..."></textarea>
+        <div class="note-controls">
+          <div style="flex:1;color:#cfefff88">Notes autosave when you press Save. They are stored only on this device.</div>
+          <div style="display:flex;gap:8px">
+            <button class="small-btn ghost" onclick="loadNotepad()">Load</button>
+            <button class="small-btn" onclick="saveNotepad()">Save</button>
+            <button class="small-btn ghost" onclick="clearNotepad()">Clear</button>
+          </div>
+        </div>
+        <div style="margin-top:14px;text-align:center">
+          <button class="small-btn ghost" onclick="openSection('dashboard')">Back</button>
         </div>
       </div>
     </section>
+
+    <!-- Numbers full -->
+    <section id="numbersFull" style="display:none;max-width:980px;margin:0 auto;padding-bottom:60px">
+      <div class="card">
+        <h3>☎️ Important Numbers</h3>
+        <textarea id="numbersText" class="note-area" placeholder="Add important numbers here..."></textarea>
+        <div class="note-controls">
+          <div style="flex:1;color:#cfefff88">Saved locally in your browser.</div>
+          <div style="display:flex;gap:8px">
+            <button class="small-btn ghost" onclick="loadNumbers()">Load</button>
+            <button class="small-btn" onclick="saveNumbers()">Save</button>
+            <button class="small-btn ghost" onclick="clearNumbers()">Clear</button>
+          </div>
+        </div>
+        <div style="margin-top:14px;text-align:center">
+          <button class="small-btn ghost" onclick="openSection('dashboard')">Back</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Personal full -->
+    <section id="personalFull" style="display:none;max-width:980px;margin:0 auto;padding-bottom:60px">
+      <div class="card">
+        <h3>🔒 Personal Details</h3>
+        <textarea id="personalText" class="note-area" placeholder="Write your personal details here..."></textarea>
+        <div class="note-controls">
+          <div style="flex:1;color:#cfefff88">Saved locally — private to this browser.</div>
+          <div style="display:flex;gap:8px">
+            <button class="small-btn ghost" onclick="loadPersonal()">Load</button>
+            <button class="small-btn" onclick="savePersonal()">Save</button>
+            <button class="small-btn ghost" onclick="clearPersonal()">Clear</button>
+          </div>
+        </div>
+        <div style="margin-top:14px;text-align:center">
+          <button class="small-btn ghost" onclick="openSection('dashboard')">Back</button>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <footer>© 2025 Krishna Sharma</footer>
+  <footer>© 2025 Krishna Sharma — With love from ChatGPT ❤️</footer>
 
-  <!-- Firebase SDK (compat) - replace versions if needed -->
+  <!-- Firebase (optional) - paste your config and enable Google sign-in when ready -->
+  <!-- Include compat libs for simpler integration -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 
   <script>
-    /**********  CONFIGURATION: ADD YOUR FIREBASE CONFIG HERE  **********
-     1) Go to https://console.firebase.google.com/
-     2) Create a project (if you don't have one)
-     3) Add a Web App (</>) and copy the firebaseConfig object
-     4) Enable Authentication -> Sign-in method -> Google
-     5) Add your domain to Authorized domains (if hosting) or use localhost for testing
-    ******************************************************************/
+    /* ==========================
+       CONFIG: Replace the firebaseConfig below with your Firebase web app config
+       (From Firebase Console -> Project Settings -> Add Web App)
+       Then enable Authentication -> Sign-in method -> Google.
+       Also add your hosting domain to Authorized domains if you host the site.
+       ========================== */
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
       authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -235,89 +355,197 @@
       storageBucket: "YOUR_PROJECT_ID.appspot.com",
       messagingSenderId: "YOUR_SENDER_ID",
       appId: "YOUR_APP_ID"
-      // measurementId: "G-XXXX"  // optional
     };
+    // If you paste your config, the site will enable Google sign-in. Otherwise the button acts as placeholder.
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+    // Initialize Firebase (if config values are replaced)
+    let firebaseInitialized = false;
+    try {
+      if (firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('YOUR_')) {
+        firebase.initializeApp(firebaseConfig);
+        firebaseInitialized = true;
+      }
+    } catch (e) {
+      console.warn("Firebase init failed or not configured (this is fine if you haven't added config).", e);
+    }
 
-    // Password logic
-    const EXPECTED_PASSWORD = "KSKSINCREDIBLE"; // <-- I assumed this exact string from your instruction
+    const EXPECTED_PASSWORD = "KSINCREDIBLE";
 
-    function startWithPassword() {
-      const pass = prompt("Enter the password to continue:");
-      if (pass === null) return; // user cancelled
+    // Intro animation sequence
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('line1').classList.add('reveal');
+      setTimeout(()=>document.getElementById('line2').classList.add('reveal-del-1'), 280);
+      setTimeout(()=>document.getElementById('line3').classList.add('reveal-del-2'), 560);
+      setTimeout(()=>document.querySelector('.intro-cta').classList.add('reveal-del-3'), 880);
+
+      // try to show saved owner name (optional)
+      const owner = localStorage.getItem('owner_name');
+      if (owner) document.getElementById('ownerName').textContent = owner;
+    });
+
+    // Side nav toggle
+    function toggleNav(){
+      const nav = document.getElementById('sideNav');
+      nav.classList.toggle('open');
+      nav.setAttribute('aria-hidden', !nav.classList.contains('open'));
+    }
+
+    function goHome(){
+      // show intro and hide dashboard/full pages
+      document.getElementById('intro').style.display = 'block';
+      document.getElementById('dashboard').classList.remove('active');
+      hideAllFull();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    // Start login flow (asks password)
+    function startLogin(){
+      // password prompt
+      const pass = prompt("Enter password:");
+      if (pass === null) return; // cancelled
       if (pass === EXPECTED_PASSWORD) {
-        document.getElementById('choices').style.display = 'flex';
-        // optionally switch to a neutral section or keep welcome visible
-        alert("Password accepted — choose an option: Profile or Krishna's Game");
+        // show dashboard (acts like opening a new page)
+        document.getElementById('intro').style.display = 'none';
+        document.getElementById('dashboard').classList.add('active');
+        window.scrollTo({top:0,behavior:'smooth'});
       } else {
         alert("Wrong password. Access denied.");
       }
     }
 
-    // Navigation helpers
-    function toggleMenu(){
-      document.getElementById('navMenu').classList.toggle('active');
-    }
-    function showSection(id){
-      document.getElementById('navMenu').classList.remove('active');
-      document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.getElementById('choices').style.display = 'none';
+    // Open a dashboard sub-section or full page
+    function openSection(id) {
+      // hide intro & dashboard or show appropriate area
+      document.getElementById('intro').style.display = 'none';
+      // hide all full sections
+      hideAllFull();
+      // hide dashboard only if opening a full page; otherwise keep dashboard visible
+      if (id !== 'dashboard') {
+        document.getElementById('dashboard').classList.remove('active');
+        document.getElementById(id).style.display = 'block';
+      } else {
+        document.getElementById('dashboard').classList.add('active');
+      }
       window.scrollTo({top:0,behavior:'smooth'});
     }
-    function showHome(){
-      document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
-      document.getElementById('welcome').classList.add('active');
-      document.getElementById('choices').style.display = 'none';
-      document.getElementById('navMenu').classList.remove('active');
-      window.scrollTo({top:0,behavior:'smooth'});
+    function hideAllFull(){
+      const ids = ['profileFull','gamesFull','notepadFull','numbersFull','personalFull'];
+      ids.forEach(i => { const el = document.getElementById(i); if (el) el.style.display = 'none'; });
     }
 
-    // Google sign-in flow (popup)
-    async function triggerGoogleLogin() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      try {
-        await auth.signInWithPopup(provider);
-        // onAuthStateChanged listener will handle UI update
-      } catch (err) {
-        console.error("Google sign-in error:", err);
-        alert("Sign-in failed: " + err.message);
+    /* =====================
+       LocalStorage note functions
+       Keys: krishna_notepad, krishna_numbers, krishna_personal
+       ===================== */
+    function saveNotepad(){
+      const v = document.getElementById('notepadText').value;
+      localStorage.setItem('krishna_notepad', v);
+      alert("Notepad saved.");
+    }
+    function loadNotepad(){
+      const v = localStorage.getItem('krishna_notepad') || "";
+      document.getElementById('notepadText').value = v;
+      alert("Notepad loaded.");
+    }
+    function clearNotepad(){
+      if (confirm("Clear notepad?")) {
+        document.getElementById('notepadText').value = "";
+        localStorage.removeItem('krishna_notepad');
       }
     }
 
-    // Sign out
-    function signOut() {
-      auth.signOut().then(() => {
-        alert("Signed out");
-      }).catch(err => {
-        console.error("Sign-out error:", err);
+    function saveNumbers(){
+      const v = document.getElementById('numbersText').value;
+      localStorage.setItem('krishna_numbers', v);
+      alert("Important numbers saved.");
+    }
+    function loadNumbers(){
+      const v = localStorage.getItem('krishna_numbers') || "";
+      document.getElementById('numbersText').value = v;
+      alert("Important numbers loaded.");
+    }
+    function clearNumbers(){
+      if (confirm("Clear important numbers?")) {
+        document.getElementById('numbersText').value = "";
+        localStorage.removeItem('krishna_numbers');
+      }
+    }
+
+    function savePersonal(){
+      const v = document.getElementById('personalText').value;
+      localStorage.setItem('krishna_personal', v);
+      alert("Personal details saved (locally).");
+    }
+    function loadPersonal(){
+      const v = localStorage.getItem('krishna_personal') || "";
+      document.getElementById('personalText').value = v;
+      alert("Personal details loaded.");
+    }
+    function clearPersonal(){
+      if (confirm("Clear personal details?")) {
+        document.getElementById('personalText').value = "";
+        localStorage.removeItem('krishna_personal');
+      }
+    }
+
+    // Google Login (if firebase configured)
+    async function triggerGoogleLogin(){
+      if (!firebaseInitialized) {
+        alert("Firebase is not configured yet. Paste your Firebase config in the code to enable Google Login (I can guide you).");
+        toggleNav(); // close menu
+        return;
+      }
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        await firebase.auth().signInWithPopup(provider);
+        // auth state listener will update UI
+      } catch (err) {
+        console.error("Google sign-in failed", err);
+        alert("Google sign-in failed: " + err.message);
+      }
+    }
+
+    function signOut(){
+      if (!firebaseInitialized) return;
+      firebase.auth().signOut().then(()=>alert("Signed out")).catch(e=>console.error(e));
+    }
+
+    // Auth state monitor (if firebase is active)
+    if (typeof firebase !== 'undefined' && firebaseInitialized) {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          // populate UI
+          document.getElementById('gname').textContent = user.displayName || "";
+          document.getElementById('gemail').textContent = user.email || "";
+          document.getElementById('googleUserInfo').style.display = 'block';
+          document.getElementById('signedOut').style.display = 'none';
+          document.getElementById('signedIn').style.display = 'block';
+          document.getElementById('profileGName').textContent = user.displayName || "";
+          document.getElementById('profileGEmail').textContent = user.email || "";
+          // optionally store owner name locally
+          localStorage.setItem('owner_name', user.displayName || 'Krishna');
+          document.getElementById('ownerName').textContent = user.displayName || 'Krishna';
+        } else {
+          // signed out
+          document.getElementById('googleUserInfo').style.display = 'none';
+          document.getElementById('signedOut').style.display = 'block';
+          document.getElementById('signedIn').style.display = 'none';
+          document.getElementById('profileGName').textContent = '';
+          document.getElementById('profileGEmail').textContent = '';
+        }
       });
     }
 
-    // Listen for auth state changes and update profile UI
-    auth.onAuthStateChanged(user => {
-      const signedInView = document.getElementById('signedInView');
-      const signedOutView = document.getElementById('signedOutView');
-      if (user) {
-        signedOutView.style.display = 'none';
-        signedInView.style.display = 'block';
-        document.getElementById('userName').textContent = user.displayName || "(no name)";
-        document.getElementById('userEmail').textContent = user.email || "";
-      } else {
-        signedOutView.style.display = 'block';
-        signedInView.style.display = 'none';
-        document.getElementById('userName').textContent = "";
-        document.getElementById('userEmail').textContent = "";
-      }
+    // Optional: quick load saved notes on page open (into textareas if present)
+    window.addEventListener('load', ()=>{
+      const np = localStorage.getItem('krishna_notepad');
+      if (np) document.getElementById('notepadText').value = np;
+      const nm = localStorage.getItem('krishna_numbers');
+      if (nm) document.getElementById('numbersText').value = nm;
+      const pp = localStorage.getItem('krishna_personal');
+      if (pp) document.getElementById('personalText').value = pp;
     });
 
-    // If user tries to open profile/game without password, redirect to home
-    (function init() {
-      showHome();
-    })();
   </script>
 </body>
 </html>
