@@ -1,282 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Krishna Sharma Website</title>
-
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
   <style>
-    /* Global */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Poppins',sans-serif;
+      background: linear-gradient(135deg,#0f2027,#2c5364);
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      color: #fff;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      overflow-x: hidden;
+    /* Header */
+    header{
+      position:fixed;top:0;left:0;right:0;
+      height:64px;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 20px;
+      background:rgba(0,0,0,0.35);
+      backdrop-filter:blur(6px);
+      z-index:999;
     }
+    header h1{font-size:1.15rem;letter-spacing:0.6px}
+    .menu-icon{font-size:26px;cursor:pointer;transition:transform .18s}
+    .menu-icon:hover{transform:scale(1.06);color:#00e5ff}
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 15px 25px;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(8px);
+    /* nav (minimal: only Home + Login) */
+    nav{
+      position:fixed;left:-100%;top:64px;height:100vh;width:68%;
+      background:rgba(0,0,0,0.85);transition:left .35s;z-index:998;
+      display:flex;flex-direction:column;align-items:center;padding-top:30px;
+      gap:8px;
     }
-
-    header h1 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
-    .menu-icon {
-      font-size: 26px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .menu-icon:hover {
-      transform: scale(1.1);
-      color: #00d4ff;
-    }
-
-    /* Navigation */
-    nav {
-      position: fixed;
-      top: 60px;
-      left: -100%;
-      width: 60%;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: 0.4s ease;
-      backdrop-filter: blur(8px);
-      z-index: 999;
-    }
-
-    nav.active {
-      left: 0;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 15px;
-      font-size: 1.1em;
-      font-weight: 500;
-      transition: 0.3s;
-      width: 100%;
-      text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-
-    nav a:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
+    nav.active{left:0}
+    nav a{width:100%;text-align:center;padding:14px 12px;color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.05)}
+    nav a:hover{background:rgba(255,255,255,0.03)}
 
     /* Sections */
-    section {
-      display: none;
-      min-height: 100vh;
-      padding: 120px 20px 50px;
-      text-align: center;
-      transition: 0.5s ease;
-    }
+    main{padding-top:80px}
+    section{min-height:calc(100vh - 120px);padding:40px 20px;display:none;align-items:center;justify-content:center;text-align:center}
+    section.active{display:flex;flex-direction:column}
 
-    section.active {
-      display: block;
-      animation: fadeIn 1s ease;
+    /* Welcome */
+    #welcome{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center}
+    .welcome-title{
+      font-size:2rem;font-weight:700;text-align:center;
+      text-shadow:0 0 16px rgba(0,195,255,0.25);
+      animation:glow 2s ease-in-out infinite alternate;
     }
+    @keyframes glow{from{text-shadow:0 0 10px rgba(0,195,255,0.25)}to{text-shadow:0 0 28px rgba(0,255,255,0.35)}}
 
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
+    .start-btn{
+      margin-top:6px;background:linear-gradient(90deg,#00c3ff,#0078ff);
+      border:none;padding:12px 28px;border-radius:40px;color:#fff;font-weight:700;cursor:pointer;
+      box-shadow:0 6px 22px rgba(0,195,255,0.12);transition:transform .18s,box-shadow .18s;
     }
+    .start-btn:hover{transform:scale(1.04);box-shadow:0 10px 32px rgba(0,195,255,0.18)}
 
-    /* Welcome Section */
-    #welcome {
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
+    /* After Start: two-option panel */
+    .choice-panel{margin-top:18px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+    .choice{
+      background:rgba(255,255,255,0.06);padding:18px 22px;border-radius:12px;min-width:160px;
+      cursor:pointer;border:1px solid rgba(255,255,255,0.04);transition:transform .15s,background .15s;
     }
+    .choice:hover{transform:translateY(-6px);background:rgba(255,255,255,0.09)}
 
-    .welcome-text {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      text-shadow: 0 0 15px #00c3ff;
-      animation: glow 2s ease-in-out infinite alternate;
+    /* Card style for profile/games/thanks */
+    .card{
+      background:rgba(255,255,255,0.06);padding:22px;border-radius:14px;max-width:520px;width:100%;
+      backdrop-filter:blur(6px);box-shadow:0 6px 30px rgba(0,0,0,0.35);
+      text-align:left;color:#e6f7ff;
     }
+    .card h2{margin-bottom:12px}
+    .card p{margin:8px 0;font-size:0.98rem;line-height:1.45}
 
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #00c3ff; }
-      to { text-shadow: 0 0 25px #00ffff; }
+    .label{color:#bfeeff;font-weight:700;margin-right:8px}
+    .muted{color:#cfeffa88;font-weight:500}
+
+    /* Game links */
+    .game-links{display:flex;flex-direction:column;gap:10px}
+    .game-links a{
+      color:#00e5ff;text-decoration:none;padding:10px 12px;border-radius:8px;
+      background:rgba(0,0,0,0.12);display:inline-block;transition:box-shadow .15s;
     }
+    .game-links a:hover{box-shadow:0 8px 24px rgba(0,230,255,0.08);color:#fff}
 
-    button {
-      background: linear-gradient(45deg, #00c3ff, #0078ff);
-      border: none;
-      color: white;
-      padding: 12px 25px;
-      border-radius: 50px;
-      font-size: 1em;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s;
-      box-shadow: 0 0 10px #00c3ff;
-    }
+    /* Footer small text */
+    footer{position:fixed;left:0;right:0;bottom:0;padding:10px 16px;text-align:center;background:rgba(0,0,0,0.35);font-size:0.9rem;color:#cfefff88}
 
-    button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px #00e5ff;
-    }
-
-    /* Profile Card */
-    .card {
-      background: rgba(255,255,255,0.1);
-      border-radius: 15px;
-      backdrop-filter: blur(6px);
-      padding: 25px;
-      max-width: 400px;
-      margin: 0 auto;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-    }
-
-    .card p {
-      margin: 10px 0;
-      font-size: 1.1em;
-    }
-
-    /* Game Links */
-    .game-links a {
-      display: block;
-      color: #00e5ff;
-      text-decoration: none;
-      font-size: 1.1em;
-      margin: 15px 0;
-      transition: 0.3s;
-    }
-
-    .game-links a:hover {
-      color: #fff;
-      text-shadow: 0 0 10px #00e5ff;
-    }
-
-    footer {
-      background: rgba(0,0,0,0.5);
-      padding: 10px;
-      text-align: center;
-      color: #aaa;
-      font-size: 0.9em;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-
-    /* Login Button */
+    /* Login button style */
     .login-btn {
-      margin-top: 15px;
-      background: #fff;
-      color: #333;
-      border-radius: 30px;
-      padding: 10px 20px;
-      font-weight: 600;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background:#fff;color:#222;padding:8px 12px;border-radius:24px;border:none;
+      cursor:pointer;font-weight:700;
     }
+    .login-btn:active{transform:translateY(1px)}
+    .user-info { margin-top:12px; color:#e6fbff; }
 
-    .login-btn:hover {
-      background: #00e5ff;
-      color: white;
-    }
-
-    @media (max-width: 600px) {
-      .welcome-text { font-size: 1.5em; }
-      button { font-size: 0.9em; }
+    /* Responsive */
+    @media (max-width:720px){
+      .welcome-title{font-size:1.5rem}
+      .choice{min-width:140px}
+      nav{width:84%}
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Krishna Sharma</h1>
-    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <div class="menu-icon" onclick="toggleMenu()" aria-hidden="true">☰</div>
   </header>
 
-  <nav id="navMenu">
-    <a href="#" onclick="showSection('welcome')">Home</a>
-    <a href="#" onclick="showSection('profile')">Profile</a>
-    <a href="#" onclick="showSection('games')">Krishna’s Game</a>
-    <a href="#" onclick="showSection('thanks')">Thanks to GPT</a>
-    <a href="#" onclick="googleLogin()">Login with Google</a>
+  <!-- Minimal nav: only Home + Login (no Profile or Games) -->
+  <nav id="navMenu" aria-hidden="true">
+    <a href="#" onclick="showHome()">Home</a>
+    <a href="#" onclick="triggerGoogleLogin()">Login with Google</a>
   </nav>
 
-  <section id="welcome" class="active">
-    <h2 class="welcome-text">Welcome, Delightful Krishna Sharma ✨</h2>
-    <button onclick="showSection('profile')">Start</button>
-  </section>
+  <main>
+    <!-- Welcome -->
+    <section id="welcome" class="active" aria-labelledby="welcome-title">
+      <div>
+        <div class="welcome-title" id="welcome-title">Welcome, Delightful Krishna Sharma ✨</div>
+        <div style="max-width:720px;margin:10px auto;color:#dff6ffcc">
+          This is your personal site. Click <strong>Start</strong> to continue.
+        </div>
 
-  <section id="profile">
-    <h2>👤 Profile</h2>
-    <div class="card">
-      <p><strong>Name:</strong> Krishna Sharma</p>
-      <p><strong>Class:</strong> (Add your class here)</p>
-      <p><strong>Enrollment No:</strong> 15</p>
-      <p><strong>Institute:</strong> PhysicsWallah</p>
-      <p><strong>Registration ID:</strong> 225</p>
-    </div>
-  </section>
+        <button class="start-btn" onclick="startWithPassword()">Start</button>
 
-  <section id="games">
-    <h2>🎮 Krishna’s Games</h2>
-    <div class="card game-links">
-      <a href="https://dusky-nine.vercel.app" target="_blank">Game 1 — dusky-nine.vercel.app</a>
-      <a href="https://ess-eight-xi.vercel.app" target="_blank">Game 2 — ess-eight-xi.vercel.app</a>
-    </div>
-  </section>
+        <!-- choices appear only after correct password -->
+        <div id="choices" class="choice-panel" style="display:none">
+          <div class="choice" onclick="showSection('profile')">👤 Profile</div>
+          <div class="choice" onclick="showSection('games')">🎮 Krishna's Game</div>
+        </div>
+      </div>
+    </section>
 
-  <section id="thanks">
-    <h2>💖 Thanks to GPT</h2>
-    <div class="card">
-      <p>Special thanks to ChatGPT for helping me design and create my dream website 🚀</p>
-    </div>
-  </section>
+    <!-- Profile -->
+    <section id="profile" aria-labelledby="profile-title">
+      <div class="card">
+        <h2 id="profile-title">👤 Profile</h2>
 
-  <footer>
-    © 2025 Krishna Sharma | All Rights Reserved
-  </footer>
+        <!-- static profile details -->
+        <p><span class="label">Name:</span> <span class="muted">Krishna Sharma</span></p>
+        <p><span class="label">Class:</span> <span class="muted">(Add your class here)</span></p>
+        <p><span class="label">Enrollment No:</span> <span class="muted">15</span></p>
+        <p><span class="label">Institute:</span> <span class="muted">PhysicsWallah</span></p>
+        <p><span class="label">Registration ID:</span> <span class="muted">22581624</span></p>
+        <p><span class="label">Gender:</span> <span class="muted">Male</span></p>
+        <p><span class="label">Nationality:</span> <span class="muted">India</span></p>
+        <p><span class="label">Address:</span> <span class="muted">tumhe nahi batana</span></p>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:14px 0">
+
+        <!-- Firebase login area: shows login button if not signed-in, otherwise user info + logout -->
+        <div id="authArea" style="text-align:center">
+          <div id="signedOutView">
+            <button class="login-btn" onclick="triggerGoogleLogin()">Login with Google</button>
+            <div style="margin-top:8px;color:#cfefff88">Sign in to show your Google account details here.</div>
+          </div>
+
+          <div id="signedInView" style="display:none">
+            <div class="user-info">
+              <div id="userName" style="font-weight:700"></div>
+              <div id="userEmail" style="font-size:0.95rem;color:#dff6ff"></div>
+            </div>
+            <div style="margin-top:12px">
+              <button onclick="signOut()" class="login-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.08);color:#dff6ff">Logout</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;text-align:center">
+          <button onclick="showHome()" style="background:transparent;border:1px solid rgba(255,255,255,0.08);padding:8px 14px;border-radius:10px;color:#dff6ff">Back</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Games -->
+    <section id="games" aria-labelledby="games-title">
+      <div class="card">
+        <h2 id="games-title">🎮 Krishna's Games</h2>
+        <div style="color:#dff6ffcc">Click a game to open it in a new tab:</div>
+        <div class="game-links" style="margin-top:12px">
+          <!-- Updated links with https -->
+          <a href="https://dusky-nine.vercel.app" target="_blank" rel="noopener noreferrer">Game 1 — dusky-nine.vercel.app</a>
+          <a href="https://ess-eight-xi.vercel.app" target="_blank" rel="noopener noreferrer">Game 2 — ess-eight-xi.vercel.app</a>
+        </div>
+
+        <div style="margin-top:18px;text-align:center">
+          <button onclick="showHome()" style="background:transparent;border:1px solid rgba(255,255,255,0.08);padding:8px 14px;border-radius:10px;color:#dff6ff">Back</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Thanks -->
+    <section id="thanks" aria-labelledby="thanks-title">
+      <div class="card" style="text-align:center">
+        <h2 id="thanks-title">💖 Thanks to GPT</h2>
+        <p>Special thanks to ChatGPT for helping me design and build this website 🚀</p>
+        <p style="margin-top:10px;font-weight:700;color:#fff">Have fun!</p>
+        <div style="margin-top:16px">
+          <button onclick="showHome()" style="background:transparent;border:1px solid rgba(255,255,255,0.08);padding:8px 14px;border-radius:10px;color:#dff6ff">Back</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2025 Krishna Sharma</footer>
+
+  <!-- Firebase SDK (compat) - replace versions if needed -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 
   <script>
-    function toggleMenu() {
-      const nav = document.getElementById("navMenu");
-      nav.classList.toggle("active");
+    /**********  CONFIGURATION: ADD YOUR FIREBASE CONFIG HERE  **********
+     1) Go to https://console.firebase.google.com/
+     2) Create a project (if you don't have one)
+     3) Add a Web App (</>) and copy the firebaseConfig object
+     4) Enable Authentication -> Sign-in method -> Google
+     5) Add your domain to Authorized domains (if hosting) or use localhost for testing
+    ******************************************************************/
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+      // measurementId: "G-XXXX"  // optional
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Password logic
+    const EXPECTED_PASSWORD = "KSKSINCREDIBLE"; // <-- I assumed this exact string from your instruction
+
+    function startWithPassword() {
+      const pass = prompt("Enter the password to continue:");
+      if (pass === null) return; // user cancelled
+      if (pass === EXPECTED_PASSWORD) {
+        document.getElementById('choices').style.display = 'flex';
+        // optionally switch to a neutral section or keep welcome visible
+        alert("Password accepted — choose an option: Profile or Krishna's Game");
+      } else {
+        alert("Wrong password. Access denied.");
+      }
     }
 
-    function showSection(id) {
-      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
-      document.getElementById(id).classList.add("active");
-      document.getElementById("navMenu").classList.remove("active");
-      window.scrollTo(0, 0);
+    // Navigation helpers
+    function toggleMenu(){
+      document.getElementById('navMenu').classList.toggle('active');
+    }
+    function showSection(id){
+      document.getElementById('navMenu').classList.remove('active');
+      document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.getElementById('choices').style.display = 'none';
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    function showHome(){
+      document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
+      document.getElementById('welcome').classList.add('active');
+      document.getElementById('choices').style.display = 'none';
+      document.getElementById('navMenu').classList.remove('active');
+      window.scrollTo({top:0,behavior:'smooth'});
     }
 
-    function googleLogin() {
-      alert("Google Login with Firebase will be added soon! 🔒");
+    // Google sign-in flow (popup)
+    async function triggerGoogleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        await auth.signInWithPopup(provider);
+        // onAuthStateChanged listener will handle UI update
+      } catch (err) {
+        console.error("Google sign-in error:", err);
+        alert("Sign-in failed: " + err.message);
+      }
     }
+
+    // Sign out
+    function signOut() {
+      auth.signOut().then(() => {
+        alert("Signed out");
+      }).catch(err => {
+        console.error("Sign-out error:", err);
+      });
+    }
+
+    // Listen for auth state changes and update profile UI
+    auth.onAuthStateChanged(user => {
+      const signedInView = document.getElementById('signedInView');
+      const signedOutView = document.getElementById('signedOutView');
+      if (user) {
+        signedOutView.style.display = 'none';
+        signedInView.style.display = 'block';
+        document.getElementById('userName').textContent = user.displayName || "(no name)";
+        document.getElementById('userEmail').textContent = user.email || "";
+      } else {
+        signedOutView.style.display = 'block';
+        signedInView.style.display = 'none';
+        document.getElementById('userName').textContent = "";
+        document.getElementById('userEmail').textContent = "";
+      }
+    });
+
+    // If user tries to open profile/game without password, redirect to home
+    (function init() {
+      showHome();
+    })();
   </script>
 </body>
 </html>
