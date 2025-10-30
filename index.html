@@ -1,171 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Krishna Sharma | Your Turn</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Krishna Sharma — Your Turn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at top, #0d0c25, #000);
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      color: white;
+    :root{--bg1:#071021;--bg2:#0b2740;--accent:#00e5ff;--accent2:#6f9cff}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(140deg,var(--bg1),var(--bg2));
+      color:#e6f7ff;display:flex;align-items:center;justify-content:center;padding:20px;
     }
-
-    .login-container {
-      text-align: center;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 40px 50px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
-      animation: fadeIn 2s ease;
+    .card{
+      width:100%;max-width:480px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+      padding:34px;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.03);
+      text-align:center;
     }
-
-    h1 {
-      font-size: 2.2em;
-      color: #00e0ff;
-    }
-
-    p {
-      color: #aaa;
-      margin-top: -10px;
-      font-size: 1em;
-    }
-
-    input {
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-      width: 80%;
-      margin-top: 20px;
-      font-size: 1em;
-    }
-
-    button {
-      margin-top: 20px;
-      background: linear-gradient(90deg, #00e0ff, #7f00ff);
-      color: white;
-      border: none;
-      padding: 12px 40px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      transform: scale(1.05);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .stars {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: white;
-      border-radius: 50%;
-      animation: twinkle 4s infinite ease-in-out alternate;
-    }
-
-    @keyframes twinkle {
-      from { opacity: 0.3; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1.2); }
-    }
+    h1{font-size:1.6rem;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;color:transparent;margin-bottom:6px}
+    p{color:#cfefff;margin-bottom:16px}
+    input{width:100%;padding:12px;border-radius:10px;border:none;background:rgba(255,255,255,0.03);color:#e6f7ff;margin-top:10px}
+    button{margin-top:14px;padding:12px 18px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#001726;font-weight:700;cursor:pointer}
+    .small{margin-top:10px;color:#cfefff;font-size:0.9rem}
+    footer{position:fixed;left:0;right:0;bottom:12px;text-align:center;color:#aee9ff88;font-size:0.9rem}
+    .stars{position:fixed;width:2px;height:2px;background:white;border-radius:50%;opacity:0.7}
   </style>
 </head>
-<body><!-- Firebase SDKs -->
-<script type="module">
-  // Import the necessary Firebase SDKs
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
-
-  // Your Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyAwmSYXl4WMA1OPXBry84xhspwXpVi38LI",
-    authDomain: "krishna-profile-site-bbaeb.firebaseapp.com",
-    projectId: "krishna-profile-site-bbaeb",
-    storageBucket: "krishna-profile-site-bbaeb.firebasestorage.app",
-    messagingSenderId: "61543512507",
-    appId: "1:61543512507:web:0117d133f243929dca2c9e",
-    measurementId: "G-8QKHRJ51NZ"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const storage = getStorage(app);
-
-  // Example: Upload file from file input
-  document.getElementById("fileInput").addEventListener("change", async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-    const storageRef = ref(storage, 'user_uploads/' + file.name);
-    await uploadBytes(storageRef, file);
-    const url = await getDownloadURL(storageRef);
-    alert("File uploaded successfully! File URL:\n" + url);
-  });
-
-  // Example: List uploaded files
-  async function listFiles() {
-    const listRef = ref(storage, 'user_uploads/');
-    const res = await listAll(listRef);
-    const fileList = document.getElementById("fileList");
-    fileList.innerHTML = "";
-    res.items.forEach(async (itemRef) => {
-      const url = await getDownloadURL(itemRef);
-      const link = document.createElement("a");
-      link.href = url;
-      link.textContent = itemRef.name;
-      link.target = "_blank";
-      fileList.appendChild(link);
-      fileList.appendChild(document.createElement("br"));
-    });
-  }
-
-  // Load the list when page opens
-  listFiles();
-</script>
-
-  <div class="login-container">
-    <h1>Krishna Sharma</h1>
-    <p>Welcome to <strong>Your Turn</strong></p>
-    <input type="password" id="password" placeholder="Enter Password" />
-    <br />
-    <button onclick="login()">Enter</button>
-    <p id="message"></p>
+<body>
+  <div class="card" role="main" aria-labelledby="title">
+    <h1 id="title">Krishna Sharma</h1>
+    <p>Welcome to <strong>Your Turn</strong> — secure creative drive</p>
+    <input id="pw" type="password" placeholder="Enter password" aria-label="password"/>
+    <button id="enterBtn">Enter</button>
+    <div class="small">Password is <strong>KSINCREDIBLE</strong></div>
   </div>
 
-  <script>
-    function login() {
-      const pass = document.getElementById('password').value;
-      if (pass === 'KSINCREDIBLE') {
-        document.getElementById('message').style.color = 'lime';
-        document.getElementById('message').textContent = 'Access Granted ✅ Redirecting...';
-        setTimeout(() => {
-          window.location.href = 'dashboard.html';
-        }, 1500);
-      } else {
-        document.getElementById('message').style.color = 'red';
-        document.getElementById('message').textContent = 'Incorrect Password ❌';
-      }
-    }
+  <footer>© 2025 Krishna Sharma — With love from ChatGPT ❤️</footer>
 
-    // Create random stars
-    for (let i = 0; i < 80; i++) {
-      const s = document.createElement('div');
-      s.classList.add('stars');
-      s.style.top = Math.random() * 100 + '%';
-      s.style.left = Math.random() * 100 + '%';
-      s.style.animationDelay = Math.random() * 5 + 's';
+  <script>
+    document.getElementById('enterBtn').addEventListener('click', ()=> {
+      const v = document.getElementById('pw').value;
+      if (v === 'KSINCREDIBLE') {
+        // success — go to dashboard
+        window.location.href = 'dashboard.html';
+      } else {
+        alert('Incorrect password');
+      }
+    });
+
+    // decorative stars
+    for(let i=0;i<60;i++){
+      const s=document.createElement('div');
+      s.className='stars';
+      s.style.left=(Math.random()*100)+'%';
+      s.style.top=(Math.random()*100)+'%';
+      s.style.opacity = 0.2 + Math.random()*0.8;
+      s.style.transform = `scale(${0.6+Math.random()*1.2})`;
       document.body.appendChild(s);
     }
   </script>
