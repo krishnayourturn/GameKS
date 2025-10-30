@@ -1,1 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Lab | KS Incredible</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0a0014, #19004d, #000);
+      color: white;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
 
+    header {
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+    }
+
+    header h1 {
+      font-size: 1.8em;
+      background: linear-gradient(90deg, #ff0080, #ff8c00, #00ffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 600;
+    }
+
+    button {
+      background: linear-gradient(90deg, #ff0080, #00ffff);
+      border: none;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    .content {
+      padding: 50px;
+      text-align: center;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .typewriter {
+      font-size: 2.2em;
+      font-weight: 600;
+      white-space: nowrap;
+      border-right: 3px solid #fff;
+      width: fit-content;
+      margin: 0 auto 20px;
+      overflow: hidden;
+      animation: typing 3s steps(30, end), blink 0.7s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    .idea-box {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 15px;
+      padding: 30px;
+      margin: 30px auto;
+      max-width: 700px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+      text-align: left;
+    }
+
+    .idea-box h2 {
+      font-size: 1.5em;
+      color: #00ffff;
+      margin-bottom: 10px;
+    }
+
+    .idea-box p {
+      color: #ddd;
+      font-size: 1em;
+    }
+
+    textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      color: white;
+      padding: 15px;
+      font-size: 1em;
+      outline: none;
+      resize: none;
+      height: 150px;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    textarea:focus {
+      border-color: #00ffff;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    }
+
+    .save-btn {
+      margin-top: 15px;
+      background: linear-gradient(90deg, #00ffff, #ff0080);
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .save-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 0;
+      color: #999;
+      font-size: 0.9em;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .floating-light {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #00ffff, transparent);
+      border-radius: 50%;
+      animation: float 8s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0); opacity: 0.5; }
+      50% { transform: translate(100px, -150px); opacity: 1; }
+      100% { transform: translate(-50px, 0); opacity: 0.5; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>💡 KS Incredible | Creative Lab</h1>
+    <button onclick="goBack()">⬅ Back</button>
+  </header>
+
+  <div class="content">
+    <div class="typewriter">Where Imagination Meets Innovation...</div>
+
+    <div class="idea-box">
+      <h2>💭 Random Idea Generator</h2>
+      <p>Type your next YouTube concept, edit idea, or life thought here:</p>
+      <textarea id="ideaInput" placeholder="Write your incredible idea here..."></textarea>
+      <button class="save-btn" onclick="saveIdea()">💾 Save Idea</button>
+    </div>
+
+    <div class="idea-box">
+      <h2>✨ Saved Ideas</h2>
+      <div id="savedIdeas" style="color:#ccc;">No ideas yet. Start creating!</div>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 KS Incredible | Where Ideas Come Alive 🌌
+  </footer>
+
+  <script>
+    function goBack() {
+      window.location.href = "dashboard.html";
+    }
+
+    function saveIdea() {
+      const input = document.getElementById('ideaInput');
+      const savedIdeas = document.getElementById('savedIdeas');
+      if (input.value.trim() === "") return alert("Write something first!");
+      const idea = document.createElement('p');
+      idea.textContent = "• " + input.value;
+      savedIdeas.appendChild(idea);
+      input.value = "";
+    }
+
+    // Floating lights
+    for (let i = 0; i < 8; i++) {
+      const light = document.createElement('div');
+      light.classList.add('floating-light');
+      light.style.top = Math.random() * 100 + '%';
+      light.style.left = Math.random() * 100 + '%';
+      light.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(light);
+    }
+  </script>
+</body>
+</html>
