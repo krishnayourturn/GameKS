@@ -146,3 +146,78 @@
 
 </body>
 </html>
+
+
+
+<!-- ===================== PART 2: PROFILE & ABOUT SECTION ===================== -->
+<section id="about" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#1e1e2f,#111526);color:white;text-align:center;padding:60px 20px;overflow:hidden;">
+  <style>
+    .profile-card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 700px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+      animation: fadeUp 1.5s ease;
+    }
+    .profile-card img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid #48c6ef;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(72,198,239,0.4);
+    }
+    .profile-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg,#48c6ef,#6f86d6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .profile-card p {
+      line-height: 1.6;
+      color: #d0d0e0;
+      margin-bottom: 15px;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .tag {
+      background: linear-gradient(90deg,#48c6ef,#6f86d6);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 0 10px rgba(72,198,239,0.4);
+      transition: transform .3s;
+    }
+    .tag:hover { transform: scale(1.1); }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(50px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+  </style>
+
+  <div class="profile-card" id="profile">
+    <img src="https://i.ibb.co/bd3dCx5/profile-avatar.png" alt="Krishna Sharma">
+    <h2>Krishna Sharma</h2>
+    <p>Hello 👋 I’m Krishna Sharma — a creative mind with a passion for innovation, digital art, and tech.  
+       I love building things that make people smile 🙂 and turning ideas into beautiful, interactive designs.  
+       Welcome to <b>Your Turn</b> — my personal space that reflects who I am.</p>
+
+    <div class="tags">
+      <div class="tag">🎬 Video Creator</div>
+      <div class="tag">💡 Innovator</div>
+      <div class="tag">🎨 Designer</div>
+      <div class="tag">💻 Tech Explorer</div>
+      <div class="tag">🌏 Dream Chaser</div>
+    </div>
+  </div>
+</section>
