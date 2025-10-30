@@ -83,7 +83,57 @@
     }
   </style>
 </head>
-<body>
+<body><!-- Firebase SDKs -->
+<script type="module">
+  // Import the necessary Firebase SDKs
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
+
+  // Your Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAwmSYXl4WMA1OPXBry84xhspwXpVi38LI",
+    authDomain: "krishna-profile-site-bbaeb.firebaseapp.com",
+    projectId: "krishna-profile-site-bbaeb",
+    storageBucket: "krishna-profile-site-bbaeb.firebasestorage.app",
+    messagingSenderId: "61543512507",
+    appId: "1:61543512507:web:0117d133f243929dca2c9e",
+    measurementId: "G-8QKHRJ51NZ"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
+
+  // Example: Upload file from file input
+  document.getElementById("fileInput").addEventListener("change", async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const storageRef = ref(storage, 'user_uploads/' + file.name);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    alert("File uploaded successfully! File URL:\n" + url);
+  });
+
+  // Example: List uploaded files
+  async function listFiles() {
+    const listRef = ref(storage, 'user_uploads/');
+    const res = await listAll(listRef);
+    const fileList = document.getElementById("fileList");
+    fileList.innerHTML = "";
+    res.items.forEach(async (itemRef) => {
+      const url = await getDownloadURL(itemRef);
+      const link = document.createElement("a");
+      link.href = url;
+      link.textContent = itemRef.name;
+      link.target = "_blank";
+      fileList.appendChild(link);
+      fileList.appendChild(document.createElement("br"));
+    });
+  }
+
+  // Load the list when page opens
+  listFiles();
+</script>
 
   <div class="login-container">
     <h1>Krishna Sharma</h1>
