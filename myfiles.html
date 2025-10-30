@@ -15,19 +15,18 @@
     .controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
     .btn{padding:10px 12px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#001726;font-weight:700}
     .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#dff6ff;padding:8px 10px;border-radius:8px}
-    .folder-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:20px}
+    .folder-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:20px}
     .folder{background:rgba(255,255,255,0.03);padding:18px;border-radius:12px;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
     .folder h3{color:#00e5ff;margin-bottom:6px}
     .modal{position:fixed;left:0;top:0;width:100%;height:100vh;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px}
     .panel{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:20px;border-radius:12px;max-width:980px;width:100%;max-height:90vh;overflow:auto}
     .image-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
     .image-grid img{width:150px;height:150px;object-fit:cover;border-radius:10px;border:2px solid rgba(255,255,255,0.06)}
-    .folder-meta{color:#cfefff88;font-size:0.95rem;margin-top:6px}
+    input[type=file]{display:none}
     .small{padding:8px 10px;border-radius:8px;border:none;background:rgba(255,255,255,0.06);color:#dff6ff}
   </style>
 </head>
 <body>
-
   <header>
     <h1>📁 My Files — Krishna Sharma</h1>
     <div>
@@ -51,16 +50,15 @@
     <div class="folder-grid" id="folderGrid" style="margin-top:18px"></div>
   </main>
 
-  <!-- Modal / Folder View -->
-  <div id="folderModal" style="display:none" class="modal">
+  <div id="folderModal" style="display:none" class="modal" aria-hidden="true">
     <div class="panel">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div>
           <h3 id="modalTitle"></h3>
-          <div class="folder-meta" id="modalMeta"></div>
+          <div style="color:#cfefff88" id="modalMeta"></div>
         </div>
         <div style="display:flex;gap:10px;align-items:center">
-          <input type="file" id="uploadInput" accept="image/*" multiple style="display:none" />
+          <input type="file" id="uploadInput" accept="image/*" multiple />
           <button class="btn" id="addImagesBtn">+ Add Images</button>
           <button class="small" id="deleteAllBtn">Delete All</button>
           <button class="small" id="closeModalBtn">Close</button>
@@ -71,14 +69,12 @@
     </div>
   </div>
 
-  <!-- Firebase + App logic -->
   <script type="module">
-    // ----- Firebase imports (modular) -----
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, getDocs, addDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
     import { getStorage, ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-    // ----- YOUR FIREBASE CONFIG (you provided this earlier) -----
     const firebaseConfig = {
       apiKey: "AIzaSyAwmSYXl4WMA1OPXBry84xhspwXpVi38LI",
       authDomain: "krishna-profile-site-bbaeb.firebaseapp.com",
@@ -89,10 +85,14 @@
       measurementId: "G-8QKHRJ51NZ"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const storage = getStorage(app);
+    const auth = getAuth(app);
+
+    // sign in anonymously to ensure request.auth exists
+    signInAnonymously(auth).catch(console.error);
+    onAuthStateChanged(auth, user => { /* ready */ });
 
     // DOM
     const folderGrid = document.getElementById('folderGrid');
@@ -107,167 +107,128 @@
     const closeModalBtn = document.getElementById('closeModalBtn');
     const deleteAllBtn = document.getElementById('deleteAllBtn');
 
-    // Simple collection 'folders' will store folder docs: { name: string, createdAt: timestamp }
-    // Images are stored in Firebase Storage under 'folders/<folderName>/filename'
-
-    // Utility: read query param folder
-    function getQueryFolder() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('folder');
-    }
-
-    // Load folders from Firestore (simple approach: we store the list in a document 'foldersList')
-    // We'll use a single doc 'meta/folders' that contains an array for simplicity.
-    async function loadFolders() {
-      folderGrid.innerHTML = 'Loading folders...';
-      try {
-        const metaDoc = await getDoc(doc(db, 'meta', 'folders'));
-        let folders = [];
-        if (metaDoc.exists()) {
-          const data = metaDoc.data();
-          folders = data.list || [];
-        }
-        renderFolders(folders);
-      } catch (e) {
+    async function loadFolders(){
+      folderGrid.innerHTML = 'Loading...';
+      try{
+        const metaRef = doc(db, 'meta', 'folders');
+        const metaSnap = await getDoc(metaRef);
+        let list = [];
+        if (metaSnap.exists()) list = metaSnap.data().list || [];
+        renderFolders(list);
+      }catch(e){
         console.error(e);
         folderGrid.innerHTML = '<div style="color:#f88">Failed to load folders</div>';
       }
     }
 
-    function renderFolders(folders) {
+    function renderFolders(list){
       folderGrid.innerHTML = '';
-      if (!folders.length) {
+      if(!list.length){
         folderGrid.innerHTML = `<div style="color:#cfefff88">No folders yet. Click "Create Folder" to start.</div>`;
         return;
       }
-      folders.forEach(name => {
-        const div = document.createElement('div');
-        div.className = 'folder';
-        div.innerHTML = `<h3>📁 ${name}</h3><div class="folder-meta">${name}</div>`;
-        div.onclick = () => openFolder(name);
-        folderGrid.appendChild(div);
+      list.forEach(name=>{
+        const el=document.createElement('div');
+        el.className='folder';
+        el.innerHTML=`<h3>📁 ${name}</h3><div style="color:#cfefff88">${name}</div>`;
+        el.onclick=()=>openFolder(name);
+        folderGrid.appendChild(el);
       });
     }
 
-    // Create folder: update the single meta doc
-    createFolderBtn.addEventListener('click', async () => {
+    createFolderBtn.addEventListener('click', async ()=>{
       const name = prompt('Enter new folder name:');
-      if (!name) return;
-      // sanitize name (no slashes)
-      const safe = name.replace(/[\/\\#?]/g, '-').trim();
-      if (!safe) return alert('Invalid name');
-      // fetch existing
-      const metaRef = doc(db, 'meta', 'folders');
+      if(!name) return;
+      const safe = name.replace(/[\/\\#?]/g,'-').trim();
+      if(!safe) return alert('Invalid name');
+      const metaRef = doc(db,'meta','folders');
       const metaSnap = await getDoc(metaRef);
       let list = [];
-      if (metaSnap.exists()) list = metaSnap.data().list || [];
-      if (list.includes(safe)) return alert('Folder already exists');
+      if(metaSnap.exists()) list = metaSnap.data().list || [];
+      if(list.includes(safe)) return alert('Folder already exists');
       list.push(safe);
-      await setDoc(metaRef, { list }, { merge: true });
+      await setDoc(metaRef,{list},{merge:true});
       alert('Folder created');
       loadFolders();
     });
 
-    // Open folder view (navigates to URL with query param so each folder has its own URL)
-    async function openFolder(name) {
-      // Go to same page with ?folder=NAME so it's bookmarkable
-      window.location.href = window.location.pathname + '?folder=' + encodeURIComponent(name);
+    function openFolder(name){
+      history.replaceState(null,'', window.location.pathname + '?folder=' + encodeURIComponent(name));
+      showFolderModal(name);
     }
 
-    // If page has ?folder=NAME on load, open modal automatically
-    async function checkOpenFolderFromURL() {
-      const f = getQueryFolder();
-      if (f) {
-        await showFolderModal(f);
-      }
-    }
-
-    // Show folder modal: list images from Storage path 'folders/<name>/'
-    async function showFolderModal(folderName) {
+    async function showFolderModal(folderName){
       modalTitle.innerText = folderName;
       modalMeta.innerText = 'Loading images...';
       imageGrid.innerHTML = '';
       folderModal.style.display = 'flex';
-
-      // list images
-      try {
+      try{
         const listRef = ref(storage, `folders/${folderName}/`);
         const res = await listAll(listRef);
-        if (!res.items.length) {
+        if(!res.items.length){
           modalMeta.innerText = 'No images in this folder yet.';
           return;
         }
         modalMeta.innerText = `${res.items.length} image(s)`;
-        // load all urls
-        for (const itemRef of res.items) {
+        for(const itemRef of res.items){
           const url = await getDownloadURL(itemRef);
           const img = document.createElement('img');
           img.src = url;
           img.alt = itemRef.name;
-          img.title = itemRef.name;
           imageGrid.appendChild(img);
         }
-      } catch (err) {
+      }catch(err){
         console.error(err);
         modalMeta.innerText = 'Error loading images';
       }
     }
 
-    // Upload images into the currently open folder by reading query param
-    addImagesBtn.addEventListener('click', () => uploadInput.click());
-    uploadInput.addEventListener('change', async (e) => {
+    addImagesBtn.addEventListener('click', ()=> uploadInput.click());
+    uploadInput.addEventListener('change', async (e)=>{
       const files = Array.from(e.target.files || []);
-      if (!files.length) return;
-      const folderName = getQueryFolder();
-      if (!folderName) return alert('Open a folder first');
-      // Upload each file under 'folders/<folderName>/filename'
+      if(!files.length) return;
+      const folderName = new URLSearchParams(window.location.search).get('folder');
+      if(!folderName) return alert('Open a folder first');
       modalMeta.innerText = 'Uploading...';
-      for (const file of files) {
+      for(const file of files){
         const fileRef = ref(storage, `folders/${folderName}/${Date.now()}_${file.name}`);
-        try {
+        try{
           await uploadBytes(fileRef, file);
-        } catch (err) {
+        }catch(err){
           console.error('Upload failed', err);
           alert('Upload failed for ' + file.name);
         }
       }
-      // refresh view
       await showFolderModal(folderName);
     });
 
-    // Delete all images in folder (dangerous - confirm)
-    deleteAllBtn.addEventListener('click', async () => {
-      const folderName = getQueryFolder();
-      if (!folderName) return;
-      if (!confirm('Delete ALL images in "' + folderName + '"? This cannot be undone.')) return;
-      try {
+    deleteAllBtn.addEventListener('click', async ()=>{
+      const folderName = new URLSearchParams(window.location.search).get('folder');
+      if(!folderName) return;
+      if(!confirm('Delete ALL images in "'+folderName+'" ?')) return;
+      try{
         const listRef = ref(storage, `folders/${folderName}/`);
         const res = await listAll(listRef);
-        for (const itemRef of res.items) {
+        for(const itemRef of res.items){
           await deleteObject(itemRef);
         }
         alert('All images deleted');
         await showFolderModal(folderName);
-      } catch (err) {
-        console.error(err);
-        alert('Delete failed');
-      }
+      }catch(err){console.error(err);alert('Delete failed')}
     });
 
-    // close modal and remove query param
-    closeModalBtn.addEventListener('click', () => {
+    closeModalBtn.addEventListener('click', ()=>{
       folderModal.style.display = 'none';
-      history.replaceState(null, '', window.location.pathname);
+      history.replaceState(null,'', window.location.pathname);
     });
 
     refreshBtn.addEventListener('click', loadFolders);
-
     function goBack(){ window.location.href='dashboard.html' }
 
-    // Initial load
     (async function init(){
       await loadFolders();
-      await checkOpenFolderFromURL();
+      const f = new URLSearchParams(window.location.search).get('folder');
+      if(f) showFolderModal(f);
     })();
   </script>
 </body>
