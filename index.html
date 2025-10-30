@@ -146,78 +146,1256 @@
 
 </body>
 </html>
+<!-- ========================= PART 2 : PROFILE INTRO ========================= -->
+<style>
+  /* ==== Background Particles ==== */
+  #bgCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
 
+  /* ==== Navbar ==== */
+  .navbar {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 18px 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    animation: slideDown 1s ease;
+  }
 
+  .navbar a {
+    color: #00d4ff;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
 
-<!-- ===================== PART 2: PROFILE & ABOUT SECTION ===================== -->
-<section id="about" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#1e1e2f,#111526);color:white;text-align:center;padding:60px 20px;overflow:hidden;">
-  <style>
-    .profile-card {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 700px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.3);
-      animation: fadeUp 1.5s ease;
-    }
-    .profile-card img {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      border: 3px solid #48c6ef;
-      margin-bottom: 20px;
-      box-shadow: 0 0 20px rgba(72,198,239,0.4);
-    }
-    .profile-card h2 {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-      background: linear-gradient(90deg,#48c6ef,#6f86d6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .profile-card p {
-      line-height: 1.6;
-      color: #d0d0e0;
-      margin-bottom: 15px;
-    }
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .tag {
-      background: linear-gradient(90deg,#48c6ef,#6f86d6);
-      color: white;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      box-shadow: 0 0 10px rgba(72,198,239,0.4);
-      transition: transform .3s;
-    }
-    .tag:hover { transform: scale(1.1); }
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(50px); }
-      to { opacity:1; transform:translateY(0); }
-    }
-  </style>
+  .navbar a:hover {
+    color: #a94eff;
+    transform: scale(1.1);
+  }
 
-  <div class="profile-card" id="profile">
-    <img src="https://i.ibb.co/bd3dCx5/profile-avatar.png" alt="Krishna Sharma">
-    <h2>Krishna Sharma</h2>
-    <p>Hello 👋 I’m Krishna Sharma — a creative mind with a passion for innovation, digital art, and tech.  
-       I love building things that make people smile 🙂 and turning ideas into beautiful, interactive designs.  
-       Welcome to <b>Your Turn</b> — my personal space that reflects who I am.</p>
+  @keyframes slideDown {
+    from { transform: translateY(-40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
 
-    <div class="tags">
-      <div class="tag">🎬 Video Creator</div>
-      <div class="tag">💡 Innovator</div>
-      <div class="tag">🎨 Designer</div>
-      <div class="tag">💻 Tech Explorer</div>
-      <div class="tag">🌏 Dream Chaser</div>
+  /* ==== Intro Section ==== */
+  .intro-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 20px;
+  }
+
+  .intro-section h1 {
+    font-size: 3rem;
+    background: linear-gradient(90deg, #00d4ff, #a94eff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowPulse 3s ease-in-out infinite alternate;
+  }
+
+  .intro-section p {
+    max-width: 700px;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    opacity: 0.85;
+    line-height: 1.7;
+  }
+
+  @keyframes glowPulse {
+    from { text-shadow: 0 0 8px #00d4ff; }
+    to { text-shadow: 0 0 25px #a94eff; }
+  }
+
+  /* ==== Buttons / Actions ==== */
+  .intro-buttons {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .intro-buttons button {
+    background: linear-gradient(90deg, #00d4ff, #a94eff);
+    border: none;
+    padding: 12px 35px;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    transition: 0.3s ease;
+  }
+
+  .intro-buttons button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #a94eff, #00d4ff);
+  }
+
+  .divider {
+    width: 120px;
+    height: 4px;
+    background: linear-gradient(90deg, #00d4ff, #a94eff);
+    border-radius: 2px;
+    margin: 30px auto;
+  }
+</style>
+
+<canvas id="bgCanvas"></canvas>
+
+<nav class="navbar" id="navbar" style="display:none;">
+  <a href="#about">About</a>
+  <a href="#projects">Projects</a>
+  <a href="#myfiles">My Files</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<section class="intro-section" id="intro" style="display:none;">
+  <h1>Hi, I’m <span style="font-weight:700;">Krishna Sharma</span> 🚀</h1>
+  <div class="divider"></div>
+  <p>
+    Passionate creator, dreamer, and digital explorer.  
+    I believe in designing magic with logic — turning code and creativity  
+    into beautiful experiences.  
+    <br><br>Built lovingly with ❤️ from ChatGPT.
+  </p>
+  <div class="intro-buttons">
+    <button onclick="scrollToSection('about')">Explore Me</button>
+    <button onclick="scrollToSection('projects')">My Projects</button>
+    <button onclick="scrollToSection('myfiles')">My Files</button>
+  </div>
+</section>
+
+<script>
+  // === Show Profile Intro after login ===
+  const observer = new MutationObserver(() => {
+    const main = document.getElementById('main-content');
+    const navbar = document.getElementById('navbar');
+    const intro = document.getElementById('intro');
+    if (main && main.classList.contains('show')) {
+      navbar.style.display = 'flex';
+      intro.style.display = 'flex';
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // === Smooth Scroll ===
+  function scrollToSection(id) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // === Background Floating Particles ===
+  const c = document.getElementById('bgCanvas');
+  const ctx = c.getContext('2d');
+  let particles = [];
+  resizeCanvas();
+
+  window.addEventListener('resize', resizeCanvas);
+
+  function resizeCanvas() {
+    c.width = window.innerWidth;
+    c.height = window.innerHeight;
+    createParticles();
+  }
+
+  function createParticles() {
+    particles = [];
+    for (let i = 0; i < 80; i++) {
+      particles.push({
+        x: Math.random() * c.width,
+        y: Math.random() * c.height,
+        r: Math.random() * 2 + 1,
+        dx: (Math.random() - 0.5) * 0.5,
+        dy: (Math.random() - 0.5) * 0.5,
+      });
+    }
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    ctx.fillStyle = 'rgba(0, 212, 255, 0.7)';
+    particles.forEach((p) => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.x < 0 || p.x > c.width) p.dx *= -1;
+      if (p.y < 0 || p.y > c.height) p.dy *= -1;
+    });
+    requestAnimationFrame(drawParticles);
+  }
+
+  drawParticles();
+</script>
+<!-- ========================= PART 3 : ABOUT ME + SKILLS ========================= -->
+<style>
+  /* ==== About Section ==== */
+  #about {
+    min-height: 100vh;
+    padding: 100px 20px;
+    background: linear-gradient(180deg, #0d0d1a 0%, #070716 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  #about h2 {
+    font-size: 2.6rem;
+    margin-bottom: 15px;
+    background: linear-gradient(90deg, #00d4ff, #a94eff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  #about p {
+    max-width: 750px;
+    font-size: 1.1rem;
+    color: #ccc;
+    line-height: 1.8;
+  }
+
+  .about-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 60px;
+    gap: 25px;
+  }
+
+  .about-card {
+    width: 280px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.1);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .about-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 35px rgba(169, 78, 255, 0.3);
+  }
+
+  .about-card h3 {
+    color: #00d4ff;
+    margin-bottom: 10px;
+  }
+
+  .about-card p {
+    font-size: 0.95rem;
+    color: #bbb;
+  }
+
+  /* ==== Skills Section ==== */
+  .skills {
+    width: 90%;
+    max-width: 800px;
+    margin-top: 80px;
+  }
+
+  .skill {
+    margin-bottom: 25px;
+    text-align: left;
+  }
+
+  .skill span {
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  .progress-bar {
+    background: rgba(255, 255, 255, 0.1);
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+
+  .progress {
+    height: 100%;
+    width: 0;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #00d4ff, #a94eff);
+    transition: width 2s ease;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: 1s all ease;
+  }
+
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @keyframes floatIcon {
+    0% {transform: translateY(0);}
+    50% {transform: translateY(-10px);}
+    100% {transform: translateY(0);}
+  }
+</style>
+
+<section id="about">
+  <h2>About Me</h2>
+  <p>
+    I'm Krishna Sharma — a creative soul blending logic & aesthetics to build digital wonders.  
+    My journey in creation began with curiosity and now drives me to experiment with code,  
+    visuals, and AI to craft something unique every day.
+  </p>
+
+  <div class="about-cards reveal">
+    <div class="about-card">
+      <h3>🎥 Video Editing</h3>
+      <p>Turning moments into cinematic art using rhythm, story, and emotion.</p>
+    </div>
+    <div class="about-card">
+      <h3>💡 Creative Design</h3>
+      <p>Designing visuals that tell stories — neon themes and clean aesthetics are my signature.</p>
+    </div>
+    <div class="about-card">
+      <h3>🤖 AI Exploration</h3>
+      <p>Experimenting with artificial intelligence to create expressive content and interactive media.</p>
+    </div>
+  </div>
+
+  <div class="skills reveal">
+    <h2 style="margin-bottom:40px;">My Skills</h2>
+
+    <div class="skill">
+      <span>HTML & CSS</span>
+      <div class="progress-bar"><div class="progress" data-width="95%"></div></div>
+    </div>
+
+    <div class="skill">
+      <span>JavaScript</span>
+      <div class="progress-bar"><div class="progress" data-width="85%"></div></div>
+    </div>
+
+    <div class="skill">
+      <span>Video Editing & Storytelling</span>
+      <div class="progress-bar"><div class="progress" data-width="92%"></div></div>
+    </div>
+
+    <div class="skill">
+      <span>AI Prompting & Automation</span>
+      <div class="progress-bar"><div class="progress" data-width="80%"></div></div>
     </div>
   </div>
 </section>
+
+<script>
+  // === Scroll Reveal ===
+  function revealElements() {
+    const reveals = document.querySelectorAll('.reveal');
+    for (let i = 0; i < reveals.length; i++) {
+      const windowHeight = window.innerHeight;
+      const elementTop = reveals[i].getBoundingClientRect().top;
+      const elementVisible = 100;
+      if (elementTop < windowHeight - elementVisible) {
+        reveals[i].classList.add('active');
+      }
+    }
+  }
+  window.addEventListener('scroll', revealElements);
+
+  // === Animate Skill Bars ===
+  function fillSkillBars() {
+    const progressBars = document.querySelectorAll('.progress');
+    progressBars.forEach(bar => {
+      const width = bar.getAttribute('data-width');
+      const sectionTop = document.getElementById('about').getBoundingClientRect().top;
+      if (sectionTop < window.innerHeight - 200) bar.style.width = width;
+    });
+  }
+  window.addEventListener('scroll', fillSkillBars);
+</script>
+<!-- ========================= PART 4 : MY FILES ZONE ========================= -->
+<style>
+  #myfiles {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #070716, #0d0d1a);
+    padding: 100px 20px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #myfiles h2 {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #00d4ff, #a94eff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+  }
+
+  #myfiles .folder-btn {
+    background: linear-gradient(90deg, #00d4ff, #a94eff);
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+  }
+
+  #myfiles .folder-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #a94eff, #00d4ff);
+  }
+
+  .folder-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+    margin-top: 40px;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .folder {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 25px;
+    text-align: center;
+    width: 220px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .folder:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(169, 78, 255, 0.4);
+  }
+
+  .folder h3 {
+    color: #00d4ff;
+    margin-bottom: 10px;
+  }
+
+  /* ==== File View Section ==== */
+  .file-view {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    backdrop-filter: blur(10px);
+    z-index: 200;
+    padding: 40px;
+    overflow-y: auto;
+  }
+
+  .file-view h3 {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    background: linear-gradient(90deg, #00d4ff, #a94eff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .file-view .close-btn {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    background: linear-gradient(90deg, #00d4ff, #a94eff);
+    border: none;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .upload-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 25px;
+    border-radius: 25px;
+    margin: 10px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .upload-btn:hover {
+    background: linear-gradient(90deg, #00d4ff, #a94eff);
+    transform: scale(1.05);
+  }
+
+  .image-preview {
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .image-preview img {
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+  }
+</style>
+
+<section id="myfiles">
+  <h2>My Files</h2>
+  <p style="opacity:0.8; max-width:600px; text-align:center;">
+    Organize your creative world! Create folders, upload images, and keep everything visually stored right here.
+  </p>
+  <button class="folder-btn" onclick="createFolder()">+ Create Folder</button>
+
+  <div class="folder-container" id="folderContainer"></div>
+
+  <!-- Folder File Viewer -->
+  <div class="file-view" id="fileView">
+    <button class="close-btn" onclick="closeFileView()">Close</button>
+    <h3 id="folderTitle">Folder Name</h3>
+    <input type="file" id="imageUpload" multiple accept="image/*" hidden />
+    <button class="upload-btn" onclick="document.getElementById('imageUpload').click()">+ Add Images</button>
+    <div class="image-preview" id="imagePreview"></div>
+  </div>
+</section>
+
+<script>
+  const folderContainer = document.getElementById('folderContainer');
+  const fileView = document.getElementById('fileView');
+  const folderTitle = document.getElementById('folderTitle');
+  const imagePreview = document.getElementById('imagePreview');
+  const imageUpload = document.getElementById('imageUpload');
+  let folders = JSON.parse(localStorage.getItem('krishnaFolders')) || {};
+
+  function renderFolders() {
+    folderContainer.innerHTML = '';
+    Object.keys(folders).forEach(folderName => {
+      const folderDiv = document.createElement('div');
+      folderDiv.className = 'folder';
+      folderDiv.innerHTML = `<h3>📁 ${folderName}</h3><p>${folders[folderName].length} Images</p>`;
+      folderDiv.onclick = () => openFolder(folderName);
+      folderContainer.appendChild(folderDiv);
+    });
+  }
+
+  function createFolder() {
+    const name = prompt('Enter new folder name:');
+    if (!name) return;
+    if (folders[name]) return alert('Folder already exists!');
+    folders[name] = [];
+    localStorage.setItem('krishnaFolders', JSON.stringify(folders));
+    renderFolders();
+  }
+
+  function openFolder(name) {
+    folderTitle.innerText = name;
+    fileView.style.display = 'flex';
+    showImages(name);
+    imageUpload.onchange = (e) => {
+      const files = Array.from(e.target.files);
+      const readers = files.map(file => {
+        return new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = ev => resolve(ev.target.result);
+          reader.readAsDataURL(file);
+        });
+      });
+      Promise.all(readers).then(images => {
+        folders[name].push(...images);
+        localStorage.setItem('krishnaFolders', JSON.stringify(folders));
+        showImages(name);
+      });
+    };
+  }
+
+  function showImages(name) {
+    imagePreview.innerHTML = '';
+    folders[name].forEach(src => {
+      const img = document.createElement('img');
+      img.src = src;
+      imagePreview.appendChild(img);
+    });
+  }
+
+  function closeFileView() {
+    fileView.style.display = 'none';
+  }
+
+  renderFolders();
+</script>
+<!-- ========================= PART 5 : CONTACT + FOOTER ========================= -->
+<style>
+  #contact {
+    background: linear-gradient(180deg, #0d0d1a, #080812);
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #contact h2 {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #00d4ff, #a94eff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+  }
+
+  #contact p {
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto 50px;
+  }
+
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 60px;
+  }
+
+  .social-icons a {
+    font-size: 2rem;
+    color: white;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .social-icons a:hover {
+    color: #00d4ff;
+    transform: scale(1.2);
+  }
+
+  /* Animated Wave Footer */
+  .footer-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 150px;
+    background: url('https://raw.githubusercontent.com/krishna-sharma-ai/wave-animation/main/wave.svg');
+    background-size: 1000px 150px;
+    animation: waveMove 8s linear infinite;
+    opacity: 0.4;
+  }
+
+  .footer-wave:nth-child(2) {
+    bottom: 15px;
+    opacity: 0.2;
+    animation-delay: -4s;
+  }
+
+  @keyframes waveMove {
+    from { background-position-x: 0; }
+    to { background-position-x: 1000px; }
+  }
+
+  footer {
+    background: #06060d;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    padding: 40px 10px;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  footer span {
+    color: #00d4ff;
+    font-weight: 600;
+  }
+
+  footer a {
+    color: #a94eff;
+    text-decoration: none;
+    margin-left: 5px;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<section id="contact">
+  <h2>Let’s Connect</h2>
+  <p>Have a project, idea, or just want to say hi? Reach out and let’s create something amazing together.</p>
+
+  <div class="social-icons">
+    <a href="mailto:krishna@example.com" title="Email Me">📧</a>
+    <a href="https://www.instagram.com/" target="_blank" title="Instagram">📸</a>
+    <a href="https://github.com/" target="_blank" title="GitHub">💻</a>
+    <a href="https://www.linkedin.com/" target="_blank" title="LinkedIn">🔗</a>
+  </div>
+
+  <div class="footer-wave"></div>
+  <div class="footer-wave"></div>
+</section>
+
+<footer>
+  <p>Designed & Developed by <span>Krishna Sharma</span> ✨ | All Rights Reserved © 2025</p>
+  <p>Inspired by creativity & innovation. <a href="#top">Back to Top ↑</a></p>
+</footer>
+<!-- ========================= PART 6 : AI INTERACTIVE DASHBOARD ========================= -->
+<style>
+  #dashboard {
+    background: radial-gradient(circle at top left, #0a0a1f, #000010);
+    color: white;
+    padding: 100px 20px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #dashboard h2 {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #00e6ff, #a94eff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 40px;
+    animation: glow 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 10px #00e6ff; }
+    to { text-shadow: 0 0 25px #a94eff; }
+  }
+
+  .dash-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    justify-items: center;
+    margin-top: 30px;
+  }
+
+  .dash-card {
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 25px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 350px;
+    box-shadow: 0 0 15px rgba(0, 230, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .dash-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(169, 78, 255, 0.3);
+  }
+
+  #clock {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  #quote {
+    font-style: italic;
+    opacity: 0.9;
+    line-height: 1.5;
+    min-height: 60px;
+  }
+
+  #goal-list {
+    text-align: left;
+    font-size: 0.95rem;
+    margin-top: 10px;
+  }
+
+  #goal-list li {
+    margin: 5px 0;
+    list-style: "🔥 ";
+  }
+
+  #ai-box {
+    height: 180px;
+    overflow-y: auto;
+    text-align: left;
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  #ai-input {
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    outline: none;
+  }
+
+  #ai-input::placeholder {
+    color: rgba(255,255,255,0.5);
+  }
+
+  button {
+    background: linear-gradient(90deg, #00e6ff, #a94eff);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    margin-top: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #00e6ff;
+  }
+
+  .bg-anim {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, #00e6ff, #a94eff, #00e6ff);
+    animation: rotateBg 20s linear infinite;
+    z-index: 0;
+    opacity: 0.08;
+  }
+
+  @keyframes rotateBg {
+    to { transform: rotate(360deg); }
+  }
+</style>
+
+<section id="dashboard">
+  <div class="bg-anim"></div>
+  <h2>AI Interactive Dashboard</h2>
+
+  <div class="dash-grid">
+    <!-- Clock Panel -->
+    <div class="dash-card">
+      <h3>⏰ Live Clock</h3>
+      <div id="clock"></div>
+    </div>
+
+    <!-- Quote Generator -->
+    <div class="dash-card">
+      <h3>💭 Daily Quote</h3>
+      <p id="quote">Loading wisdom...</p>
+      <button onclick="newQuote()">New Quote</button>
+    </div>
+
+    <!-- Goals -->
+    <div class="dash-card">
+      <h3>🎯 My Daily Goals</h3>
+      <ul id="goal-list">
+        <li>Finish editing my new project</li>
+        <li>Upload new content</li>
+        <li>Plan next idea</li>
+      </ul>
+    </div>
+
+    <!-- AI Chat -->
+    <div class="dash-card">
+      <h3>🤖 Chat with AI</h3>
+      <div id="ai-box"></div>
+      <input type="text" id="ai-input" placeholder="Say something..." onkeypress="if(event.key==='Enter'){sendAIMessage();}">
+      <button onclick="sendAIMessage()">Send</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  // --- Live Clock ---
+  function updateClock(){
+    const now = new Date();
+    document.getElementById("clock").textContent = now.toLocaleTimeString();
+  }
+  setInterval(updateClock, 1000); updateClock();
+
+  // --- Quote Generator ---
+  const quotes = [
+    "Dream big, work hard, stay humble.",
+    "Every day is a new beginning.",
+    "Great things never come from comfort zones.",
+    "Your vibe attracts your tribe.",
+    "Be so good they can’t ignore you.",
+    "Push yourself, because no one else will."
+  ];
+  function newQuote(){
+    document.getElementById("quote").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+  }
+  newQuote();
+
+  // --- AI Chat Mock ---
+  function sendAIMessage(){
+    const input = document.getElementById("ai-input");
+    const message = input.value.trim();
+    if(!message) return;
+    const box = document.getElementById("ai-box");
+    const userMsg = document.createElement("div");
+    userMsg.innerHTML = `<b>You:</b> ${message}`;
+    box.appendChild(userMsg);
+    input.value = "";
+
+    setTimeout(()=>{
+      const aiReply = document.createElement("div");
+      aiReply.innerHTML = `<b>AI:</b> ${generateAIResponse(message)}`;
+      box.appendChild(aiReply);
+      box.scrollTop = box.scrollHeight;
+    }, 800);
+  }
+
+  function generateAIResponse(msg){
+    msg = msg.toLowerCase();
+    if(msg.includes("hello")) return "Hi Krishna! 👋 How’s your day going?";
+    if(msg.includes("who")) return "I’m your personal AI assistant, always ready to help!";
+    if(msg.includes("motivate")) return "Remember, every great journey starts with one small step!";
+    if(msg.includes("bye")) return "Goodbye Krishna! Keep shining 💫";
+    return "Hmm... interesting thought! Let's explore it together sometime.";
+  }
+</script>
+<!-- ========================= PART 7 : 3D SHOWCASE SECTION ========================= -->
+<style>
+  #showcase {
+    background: linear-gradient(180deg, #050510, #0c0c1a);
+    color: #fff;
+    text-align: center;
+    padding: 120px 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  #showcase h2 {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #00e6ff, #a94eff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 50px;
+    animation: glowShow 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes glowShow {
+    from { text-shadow: 0 0 10px #00e6ff; }
+    to { text-shadow: 0 0 25px #a94eff; }
+  }
+
+  .cube {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto 40px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotateCube 12s infinite linear;
+  }
+
+  .cube-face {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgba(0,230,255,0.2);
+    background-size: cover;
+    background-position: center;
+  }
+
+  .cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(110px); background-image: url('https://source.unsplash.com/collection/190727/220x220'); }
+  .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(110px); background-image: url('https://source.unsplash.com/collection/94734566/220x220'); }
+  .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(110px); background-image: url('https://source.unsplash.com/collection/1163637/220x220'); }
+  .cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(110px); background-image: url('https://source.unsplash.com/collection/11649432/220x220'); }
+  .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(110px); background-image: url('https://source.unsplash.com/collection/922485/220x220'); }
+  .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(110px); background-image: url('https://source.unsplash.com/collection/140681/220x220'); }
+
+  @keyframes rotateCube {
+    from { transform: rotateX(0deg) rotateY(0deg); }
+    to { transform: rotateX(360deg) rotateY(360deg); }
+  }
+
+  .showcase-info {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    opacity: 0.9;
+  }
+
+  .showcase-info strong {
+    color: #00e6ff;
+  }
+
+  .showcase-btn {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 12px 25px;
+    font-size: 1rem;
+    background: linear-gradient(90deg, #00e6ff, #a94eff);
+    border: none;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0,230,255,0.3);
+  }
+
+  .showcase-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(169,78,255,0.4);
+  }
+
+  /* Floating background lights */
+  .glow-dot {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #00e6ff, transparent);
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: floatGlow 10s infinite ease-in-out alternate;
+  }
+
+  .glow-dot:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+  .glow-dot:nth-child(2) { top: 50%; left: 80%; animation-delay: 3s; }
+  .glow-dot:nth-child(3) { top: 80%; left: 30%; animation-delay: 5s; }
+
+  @keyframes floatGlow {
+    0% { transform: translateY(0) scale(1); opacity: 0.3; }
+    50% { transform: translateY(-40px) scale(1.3); opacity: 0.6; }
+    100% { transform: translateY(0) scale(1); opacity: 0.3; }
+  }
+</style>
+
+<section id="showcase">
+  <div class="glow-dot"></div>
+  <div class="glow-dot"></div>
+  <div class="glow-dot"></div>
+  
+  <h2>🚀 3D Showcase</h2>
+  
+  <div class="cube">
+    <div class="cube-face"></div>
+    <div class="cube-face"></div>
+    <div class="cube-face"></div>
+    <div class="cube-face"></div>
+    <div class="cube-face"></div>
+    <div class="cube-face"></div>
+  </div>
+
+  <div class="showcase-info">
+    Welcome to the <strong>visual world of Krishna Sharma</strong> — here’s where creativity meets technology.  
+    Each side of this 3D cube represents a different side of my passion: from AI, design, and innovation  
+    to imagination, storytelling, and style.  
+    <br><br>
+    Stay tuned — more sections will rotate into the world soon!
+  </div>
+
+  <a href="#top" class="showcase-btn">⬆️ Back to Top</a>
+</section>
+<!-- ========================= PART 8 : QUANTUM CANVAS ========================= -->
+<section id="quantum-canvas-section">
+  <canvas id="quantumCanvas"></canvas>
+  <div class="quantum-text">
+    <h2>⚡ Quantum Canvas ⚡</h2>
+    <p>Where Energy Meets Imagination — A Living Creation by <strong>Krishna Sharma</strong></p>
+  </div>
+</section>
+
+<style>
+  #quantum-canvas-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #06061a, #000010);
+  }
+
+  #quantumCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .quantum-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(0, 230, 255, 0.5);
+  }
+
+  .quantum-text h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #00e6ff, #ff4efc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowTitle 3s ease-in-out infinite alternate;
+  }
+
+  .quantum-text p {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.85);
+  }
+
+  @keyframes glowTitle {
+    from { text-shadow: 0 0 10px #00e6ff; }
+    to { text-shadow: 0 0 25px #ff4efc; }
+  }
+</style>
+
+<script>
+  // Quantum Canvas Animation by KS ✨
+  const canvas = document.getElementById("quantumCanvas");
+  const ctx = canvas.getContext("2d");
+
+  let particlesArray;
+  const mouse = {
+    x: null,
+    y: null,
+    radius: 120
+  };
+
+  window.addEventListener("mousemove", function(e) {
+    mouse.x = e.x;
+    mouse.y = e.y;
+  });
+
+  function initCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  initCanvas();
+
+  window.addEventListener("resize", initCanvas);
+
+  class Particle {
+    constructor(x, y, size, color) {
+      this.x = x;
+      this.y = y;
+      this.size = size;
+      this.color = color;
+      this.baseX = x;
+      this.baseY = y;
+      this.density = Math.random() * 30 + 1;
+    }
+
+    draw() {
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    update() {
+      let dx = mouse.x - this.x;
+      let dy = mouse.y - this.y;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+      let forceDirectionX = dx / distance;
+      let forceDirectionY = dy / distance;
+      let maxDistance = mouse.radius;
+      let force = (maxDistance - distance) / maxDistance;
+      let directionX = forceDirectionX * force * this.density;
+      let directionY = forceDirectionY * force * this.density;
+
+      if (distance < mouse.radius) {
+        this.x -= directionX;
+        this.y -= directionY;
+      } else {
+        if (this.x !== this.baseX) {
+          let dx = this.x - this.baseX;
+          this.x -= dx / 15;
+        }
+        if (this.y !== this.baseY) {
+          let dy = this.y - this.baseY;
+          this.y -= dy / 15;
+        }
+      }
+    }
+  }
+
+  function init() {
+    particlesArray = [];
+    const numberOfParticles = 600;
+    for (let i = 0; i < numberOfParticles; i++) {
+      let x = Math.random() * canvas.width;
+      let y = Math.random() * canvas.height;
+      let size = Math.random() * 2 + 1;
+      let color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+      particlesArray.push(new Particle(x, y, size, color));
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < particlesArray.length; i++) {
+      particlesArray[i].draw();
+      particlesArray[i].update();
+    }
+    connectParticles();
+    requestAnimationFrame(animate);
+  }
+
+  function connectParticles() {
+    let opacityValue = 1;
+    for (let a = 0; a < particlesArray.length; a++) {
+      for (let b = a; b < particlesArray.length; b++) {
+        let dx = particlesArray[a].x - particlesArray[b].x;
+        let dy = particlesArray[a].y - particlesArray[b].y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < 70) {
+          opacityValue = 1 - distance / 70;
+          ctx.strokeStyle = `rgba(0,230,255,${opacityValue})`;
+          ctx.lineWidth = 0.3;
+          ctx.beginPath();
+          ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+          ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  init();
+  animate();
+</script>
