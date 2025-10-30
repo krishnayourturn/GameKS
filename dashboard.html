@@ -1,1 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | KS Incredible</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #09091b, #000);
+      height: 100vh;
+      color: white;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
 
+    header {
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 2px 10px rgba(0, 255, 255, 0.2);
+    }
+
+    header h1 {
+      font-size: 1.8em;
+      background: linear-gradient(90deg, #00e0ff, #7f00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .folders {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      width: 80%;
+      margin-top: 50px;
+    }
+
+    .folder {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    }
+
+    .folder:hover {
+      transform: translateY(-10px);
+      background: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 30px rgba(127, 0, 255, 0.4);
+    }
+
+    .folder img {
+      width: 80px;
+      margin-bottom: 15px;
+    }
+
+    .folder h3 {
+      font-size: 1.1em;
+      letter-spacing: 0.5px;
+    }
+
+    footer {
+      width: 100%;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 0.9em;
+      color: #aaa;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Stars again */
+    .stars {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s infinite ease-in-out alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.3; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1.2); }
+    }
+
+    button {
+      background: linear-gradient(90deg, #00e0ff, #7f00ff);
+      border: none;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Welcome, KS Incredible 🌌</h1>
+    <button onclick="logout()">Logout</button>
+  </header>
+
+  <main>
+    <div class="folders">
+      <div class="folder" onclick="openPage('video.html')">
+        <img src="https://img.icons8.com/fluency/96/video.png" alt="Video" />
+        <h3>Video Projects</h3>
+      </div>
+
+      <div class="folder" onclick="openPage('creative.html')">
+        <img src="https://img.icons8.com/color/96/light-on--v1.png" alt="Creative" />
+        <h3>Creative Lab</h3>
+      </div>
+
+      <div class="folder" onclick="openPage('myfiles.html')">
+        <img src="https://img.icons8.com/3d-fluency/94/folder-invoices.png" alt="My Files" />
+        <h3>My Files</h3>
+      </div>
+
+      <div class="folder" onclick="openPage('music.html')">
+        <img src="https://img.icons8.com/fluency/96/musical-notes.png" alt="Music" />
+        <h3>Music Zone</h3>
+      </div>
+
+      <div class="folder" onclick="openPage('settings.html')">
+        <img src="https://img.icons8.com/color/96/settings.png" alt="Settings" />
+        <h3>Settings</h3>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 KS Incredible | Powered by Creativity ⚡</p>
+  </footer>
+
+  <script>
+    function openPage(page) {
+      window.location.href = page;
+    }
+
+    function logout() {
+      window.location.href = "index.html";
+    }
+
+    // Add floating stars
+    for (let i = 0; i < 100; i++) {
+      const s = document.createElement('div');
+      s.classList.add('stars');
+      s.style.top = Math.random() * 100 + '%';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(s);
+    }
+  </script>
+
+</body>
+</html>
