@@ -10,7 +10,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Poppins',sans-serif;background:linear-gradient(140deg,var(--bg1),var(--bg2));color:#e6f7ff;min-height:100vh}
     header{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;background:rgba(255,255,255,0.03);backdrop-filter:blur(6px)}
-    header h1{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;color:transparent;font-size:1.25rem}
+    header h1{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;color:transparent;font-size:1.1rem}
     .container{max-width:1100px;margin:28px auto;padding:18px}
     .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
     .card{background:rgba(255,255,255,0.03);padding:18px;border-radius:14px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 30px rgba(0,0,0,0.5);cursor:pointer;transition:transform .18s}
@@ -18,9 +18,8 @@
     .card h3{color:#eaffff;margin-bottom:6px}
     .actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
     .btn{padding:10px 12px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#001726;font-weight:700}
-    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#dff6ff}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#dff6ff;padding:8px 10px;border-radius:8px}
     footer{padding:20px;text-align:center;color:#aee9ff66}
-    /* responsive */
     @media (max-width:780px){header{padding:12px} .container{padding:12px}}
   </style>
 </head>
@@ -28,55 +27,55 @@
   <header>
     <h1>Krishna Sharma — Dashboard</h1>
     <div>
-      <button class="btn ghost" onclick="goHome()">Home</button>
-      <button class="btn" onclick="logout()">Logout</button>
+      <button class="ghost" onclick="goHome()">Home</button>
+      <button class="ghost" onclick="logout()">Logout</button>
     </div>
   </header>
 
   <main class="container">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
       <div style="font-size:1rem">Welcome back — <strong>Krishna</strong></div>
-      <div style="font-size:0.95rem;color:#cfefff88">Connected to Firebase (files sync across devices)</div>
+      <div style="font-size:0.95rem;color:#cfefff88">Connected to Firebase — files sync across devices</div>
     </div>
 
     <div class="cards">
-      <div class="card" onclick="openPage('video.html')">
-        <div>
-          <h3>🎬 Video Projects</h3>
-          <p>Open your video workspace and edits.</p>
-        </div>
-        <div class="actions">
-          <button class="btn ghost" onclick="openPage('video.html')">Open</button>
-        </div>
-      </div>
-
-      <div class="card" onclick="openPage('creative.html')">
-        <div>
-          <h3>🎨 Creative Lab</h3>
-          <p>Ideas, notes and creative sparks.</p>
-        </div>
-        <div class="actions">
-          <button class="btn ghost" onclick="openPage('creative.html')">Open</button>
-        </div>
-      </div>
-
       <div class="card" onclick="openPage('myfiles.html')">
         <div>
           <h3>📁 My Files</h3>
-          <p>Create folders, upload images — stored online and synced.</p>
+          <p>Create folders, upload images, and access them anywhere.</p>
         </div>
         <div class="actions">
-          <button class="btn" onclick="openPage('myfiles.html')">Open My Files</button>
+          <button class="btn" onclick="openPage('myfiles.html');event.stopPropagation();">Open My Files</button>
         </div>
       </div>
 
-      <div class="card" onclick="openPage('settings.html')">
+      <div class="card" onclick="alert('Creative Lab coming soon — use My Files for now')">
         <div>
-          <h3>⚙️ Settings</h3>
-          <p>Theme, password and site controls.</p>
+          <h3>🎨 Creative Lab</h3>
+          <p>Notes, ideas and drafts (placeholder).</p>
         </div>
         <div class="actions">
-          <button class="btn ghost" onclick="openPage('settings.html')">Open</button>
+          <button class="ghost">Open</button>
+        </div>
+      </div>
+
+      <div class="card" onclick="alert('Video Projects coming soon — use My Files for assets')">
+        <div>
+          <h3>🎬 Video Projects</h3>
+          <p>Video editor workspace (placeholder).</p>
+        </div>
+        <div class="actions">
+          <button class="ghost">Open</button>
+        </div>
+      </div>
+
+      <div class="card" onclick="openPage('index.html')">
+        <div>
+          <h3>🔒 Logout / Back</h3>
+          <p>Return to login screen.</p>
+        </div>
+        <div class="actions">
+          <button class="ghost">Logout</button>
         </div>
       </div>
     </div>
@@ -85,66 +84,9 @@
   <footer>© 2025 Krishna Sharma — With love from ChatGPT ❤️</footer>
 
   <script>
-    function openPage(p){
-      // open in same tab
-      window.location.href = p;
-    }
-    function logout(){ window.location.href='index.html' }
-    function goHome(){ window.location.href='index.html' }
+    function openPage(p){ window.location.href = p; }
+    function logout(){ window.location.href = 'index.html' }
+    function goHome(){ window.location.href = 'index.html' }
   </script>
-  <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAwmSYXl4WMA1OPXBry84xhspwXpVi38LI",
-    authDomain: "krishna-profile-site-bbaeb.firebaseapp.com",
-    projectId: "krishna-profile-site-bbaeb",
-    storageBucket: "krishna-profile-site-bbaeb.firebasestorage.app",
-    messagingSenderId: "61543512507",
-    appId: "1:61543512507:web:0117d133f243929dca2c9e",
-    measurementId: "G-8QKHRJ51NZ"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const storage = getStorage(app);
-
-  const fileInput = document.getElementById('fileInput');
-  const uploadBtn = document.getElementById('uploadBtn');
-  const uploadMessage = document.getElementById('uploadMessage');
-  const fileList = document.getElementById('fileList');
-
-  uploadBtn.addEventListener('click', async () => {
-    const file = fileInput.files[0];
-    if (!file) {
-      uploadMessage.textContent = "Please select a file first.";
-      return;
-    }
-
-    uploadMessage.textContent = "Uploading file...";
-    const storageRef = ref(storage, 'user_uploads/' + file.name);
-    await uploadBytes(storageRef, file);
-    const url = await getDownloadURL(storageRef);
-    uploadMessage.textContent = "✅ File uploaded successfully!";
-    listFiles();
-  });
-
-  async function listFiles() {
-    const listRef = ref(storage, 'user_uploads/');
-    const res = await listAll(listRef);
-    fileList.innerHTML = "";
-    res.items.forEach(async (itemRef) => {
-      const url = await getDownloadURL(itemRef);
-      const link = document.createElement("a");
-      link.href = url;
-      link.textContent = itemRef.name;
-      link.target = "_blank";
-      fileList.appendChild(link);
-      fileList.appendChild(document.createElement("br"));
-    });
-  }
-
-  listFiles();
-</script>
 </body>
 </html>
